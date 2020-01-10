@@ -1,5 +1,5 @@
 Name:           gom
-Version:        0.3.2
+Version:        0.3.3
 Release:        1%{?dist}
 Summary:        GObject to SQLite object mapper library
 
@@ -8,7 +8,8 @@ URL:            https://wiki.gnome.org/Projects/Gom
 Source0:        https://download.gnome.org/sources/gom/0.3/gom-%{version}.tar.xz
 
 BuildRequires:  gobject-introspection-devel
-BuildRequires:  intltool
+BuildRequires:  gtk-doc
+BuildRequires:  meson
 BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gobject-2.0)
@@ -29,22 +30,22 @@ developing applications that use %{name}.
 
 %prep
 %setup -q
+# Disable Python bindings
+rm bindings/meson.build
+touch bindings/meson.build
 
 %build
-%configure --disable-static
-make %{?_smp_mflags}
+LANG=en_US.utf8 %meson -Denable-gtk-doc=true
+LANG=en_US.utf8 %meson_build
 
 %install
-%make_install
-find $RPM_BUILD_ROOT -name '*.la' -delete
-
-%find_lang gom
+LANG=en_US.utf8 %meson_install
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
-%files -f gom.lang
+%files
 %license COPYING
 %{_libdir}/girepository-1.0/Gom-1.0.typelib
 %{_libdir}/libgom-1.0.so.0*
@@ -57,6 +58,11 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Tue Jun 05 2018 Bastien Nocera <bnocera@redhat.com> - 0.3.3-1
++ gom-0.3.3-1
+- Update to 0.3.3
+- Resolves: #1569961
+
 * Tue Dec 29 2015 Kalev Lember <klember@redhat.com> - 0.3.2-1
 - Update to 0.3.2
 - Resolves: #1386973
