@@ -1,4 +1,1331 @@
-commit df89f8792416de47df778de6df5adc3a0a92481d
+commit 7baecb25e76357f8ec83b005ccbd79a7c2e6f1d8 (HEAD -> master)
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sat Dec 26 14:54:28 2015 +0100
+
+    0.3.2
+
+ NEWS         | 12 ++++++++++++
+ configure.ac |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+commit bd947a06e2346cf561aae9874b27ee15e585f4fa
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sat Dec 26 18:25:21 2015 +0100
+
+    python: Fix distcheck
+    
+    Installation failed during distcheck as it tried to install in the
+    system Python directories, which normal users can't install to.
+
+ Makefile.am  |  6 +++++-
+ configure.ac | 16 ++++++++++++++--
+ 2 files changed, 19 insertions(+), 3 deletions(-)
+
+commit 04dab4b07591854e7b760e9b3fa0abdc8f85eef7 (origin/master, origin/HEAD)
+Author: Pedro Albuquerque <palbuquerque73@gmail.com>
+Date:   Thu Sep 24 07:01:00 2015 +0000
+
+    Added Portuguese translation
+
+ po/LINGUAS |   1 +
+ po/pt.po   | 212 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 213 insertions(+)
+
+commit 51eeff0ce27e2762c889fd106c4cd1bfb39e9fff
+Author: Tom Schoonjans <Tom.Schoonjans@bam.de>
+Date:   Mon Sep 7 18:03:48 2015 +0200
+
+    build: Don't build tests when tests are disabled
+    
+    --disable-glibtest should disable all the tests. As we do the equivalent
+    of passing that flag when gdk-pixbuf is not available, make sure not to
+    try and build tests when gdk-pixbuf is unavailable.
+    
+    In the future, we should just disable the gdk-pixbuf requiring test when
+    it's not available, instead of disabling all the tests.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=754694
+
+ tests/Makefile.include | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+commit 65374efcb8f57347946bf20f33f3c8a7a65351f7
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Aug 25 15:38:52 2015 +0200
+
+    resource: Remove unused and leaked hashtable
+    
+    Spotted by Victor Toso.
+
+ gom/gom-resource.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+commit f70f121c917343dc97c618cbb27b7784c0463b50
+Author: Victor Toso <victortoso@redhat.com>
+Date:   Wed Aug 12 17:03:11 2015 +0200
+
+    tests: Add migration with new table in version X
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753563
+
+ tests/test-gom-migration.c | 270 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 270 insertions(+)
+
+commit 5ad762eaaba654d690ed53e6038aacce7358619d
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Aug 25 00:06:02 2015 +0200
+
+    gom: Add support for creating new tables in a version
+    
+    To support creating new tables in a particular version of the database,
+    we special case the primary key's "new in version" tag to create the
+    table in that version.
+    
+    For example, if a table with 2 columns, one primary key, and one
+    attribute, needs to be created in version 4 of the database, you'll need
+    to tag both the primary key property as well as the attribute one as
+    being new in version 4 of the database.
+    
+    Think of this as an easter egg, as you'd really be expected to create
+    all the necessary tables in version 1, or to manually migrate your
+    database otherwise.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753563
+
+ gom/gom-command-builder.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+commit 458a8ecdffe5f6c36ab08d0dde89f3d06a32b580
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Mon Aug 24 22:32:16 2015 +0200
+
+    sorting: Fix compile-time warning
+
+ gom/gom-sorting.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2315e28f7c798e16b6eb3a102afc71fd0c553dfb
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue May 26 16:29:16 2015 +0200
+
+    gom: Fix impossible pointer dereference
+    
+    gom-0.2.1/gom/gom-command-builder.c:849: check_after_deref: Null-checking "str" suggests that it may be null, but it has already been dereferenced on all paths leading to the check.
+    gom-0.2.1/gom/gom-command-builder.c:762: check_after_deref: Null-checking "str" suggests that it may be null, but it has already been dereferenced on all paths leading to the check.
+
+ gom/gom-command-builder.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+commit d9362b170ce6829e54a859d2bc8664b1b52ad30b
+Author: Ting-Wei Lan <lantw@src.gnome.org>
+Date:   Sat Aug 8 20:16:48 2015 +0800
+
+    gom: Fix return value error in gom_sorting_add
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753381
+
+ gom/gom-sorting.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0e0ef51d5b379d64f044f4e69c02ee36060e2ba7
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Fri Aug 7 16:36:57 2015 +0200
+
+    Add a gom_filter_new_sql unit test
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753353
+
+ tests/test-gom-find-specific.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+commit 7d183492765609162501ed4f9a3c31dd45585a02
+Author: Christian Hergert <christian@hergert.me>
+Date:   Fri Aug 7 19:16:52 2015 +0200
+
+    filter: use a copy of the value array
+    
+    In GObject Introspection, we can't expect transfer of ownership of the
+    array. So we will just make a copy of the array.
+
+ gom/gom-filter.c | 39 +++++++++++++++++++++++++++++++--------
+ gom/gom-filter.h |  2 +-
+ 2 files changed, 32 insertions(+), 9 deletions(-)
+
+commit 27b4d00a70468b5479c3c082724e88e634735b41
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat Aug 1 16:33:08 2015 +0200
+
+    python: Override the Sorting constructor
+    
+    In C, the gom_sorting_new constructor allows passing all the sorting
+    arguments to the created GomSorting object.
+    
+    This allows doing exactly the same thing in Python as well, without
+    having to first create the Gom.Sorting object, then adding all the
+    sorting arguments.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753137
+
+ bindings/python/gi/overrides/Gom.py | 16 ++++++++++++++++
+ examples/gom.py                     |  3 +--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+commit ed722a3361e89ce3c71c3f6b930470aa93fdbd06
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat Aug 1 16:31:39 2015 +0200
+
+    python: Make ResourceGroup a sequence
+    
+    This is a simple GI overrides, which allows iterating directly over a
+    Gom.ResourceGroup, accessing items as if it were a list, and getting its
+    length, all in the natural Python way.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753137
+
+ bindings/python/gi/overrides/Gom.py | 20 ++++++++++++++++++++
+ examples/gom.py                     |  9 ++++-----
+ 2 files changed, 24 insertions(+), 5 deletions(-)
+
+commit d3dac3f409ed381120aa2445b13a0d0ecae93503
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat Aug 1 16:26:55 2015 +0200
+
+    python: Prepare for adding some GI overrides
+    
+    This adds an optional build-time dependency on Python 3 and PyGObject.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753137
+
+ .gitignore                          |  1 +
+ Makefile.am                         |  1 +
+ bindings/python/Makefile.include    |  4 ++++
+ bindings/python/gi/overrides/Gom.py | 22 ++++++++++++++++++++++
+ configure.ac                        | 27 +++++++++++++++++++++++++++
+ 5 files changed, 55 insertions(+)
+
+commit 975b7a7da85765f23fa95366d6913763c4a03a55
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Wed Jul 8 23:17:37 2015 +0200
+
+    python: Add a working example
+    
+    The example demonstrates how to use Gom from Python, connecting to a
+    database, creating resource classes, inserting resource instances,
+    fetching them back with or without filters, with or without ordering,
+    synchronously or asynchronously, and then closing the connection.
+    
+    Some parts don't look very Pythonic, but it could be made better with GI
+    overrides.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753137
+
+ Makefile.am               |  1 +
+ examples/Makefile.include |  1 +
+ examples/gom.py           | 85 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 87 insertions(+)
+
+commit 54b098ea26869e78911b74acb61b2487c06cea19
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Aug 6 07:35:45 2015 +0200
+
+    sorting: Avoid SQL injections
+    
+    Other Gom objects, for example GomFilter, use a GParamSpec internally,
+    which automatically sanitizes property identifiers, so that they won't
+    contain any special characters like ";", "?", or other things which
+    could cause SQL injections.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=753049
+
+ gom/gom-sorting.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
+
+commit 5133082d735da4800d7135e24a319d678ba4a83a
+Author: Marek Černocký <marek@manet.cz>
+Date:   Wed Jul 22 02:06:51 2015 +0200
+
+    Updated Czech translation
+
+ po/cs.po | 98 ++++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 55 insertions(+), 43 deletions(-)
+
+commit 9b4ae7bcb59ea9ced6e792be8dfde913b0053ba7
+Author: Balázs Úr <urbalazs@gmail.com>
+Date:   Fri Jul 17 14:08:03 2015 +0000
+
+    Updated Hungarian translation
+
+ po/hu.po | 96 +++++++++++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 55 insertions(+), 41 deletions(-)
+
+commit 32fc752f1115d337cc1ddb29d8b9805e46e854c5
+Author: Daniel Mustieles <daniel.mustieles@gmail.com>
+Date:   Tue Jul 14 09:55:33 2015 +0200
+
+    Updated Spanish translation
+
+ po/es.po | 421 ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 217 insertions(+), 204 deletions(-)
+
+commit fd5ea9493f3e99127a4cfae1127a51ada1805a4d
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Sun Jul 12 16:54:37 2015 +0200
+
+    Updated Polish translation
+
+ po/pl.po | 96 ++++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 54 insertions(+), 42 deletions(-)
+
+commit e7a8801109b1d361b7aab144c08eadaaba998605
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Wed Jul 8 23:05:06 2015 +0200
+
+    sorting: Allow adding sorting clauses to an existing GomSorting
+    
+    This allows another way to use GomSorting objects.
+    
+    In addition, it makes it possible to use GomSorting from GI-based
+    bindings.
+    
+    As it turns out, GObject Introspection does not support variadic
+    functions, so gom_sorting_new just isn't usable from GI-based bindings.
+    
+    But with this commit, GI-based bindings can now simply create a new,
+    empty GomSorting object, then add their sorting clauses to it.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=752141
+
+ gom/gom-sorting.c        | 56 ++++++++++++++++++++++++++-------
+ gom/gom-sorting.h        |  4 +++
+ tests/test-gom-sorting.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 131 insertions(+), 11 deletions(-)
+
+commit 38ec6584b12a0cd052cfe36c1d5caac50f25050b
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Fri Jul 10 09:45:58 2015 +0200
+
+    sorting: Properly free the GomOrderByTerm
+    
+    We were leaking the property_name string.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=752141
+
+ gom/gom-sorting.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+commit ab60def8a5f270fd66e26b34abbf5394287e9425
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Jul 9 16:17:26 2015 +0200
+
+    sorting: Improve the gom_sorting_new documentation
+    
+    This adds language markup, and the proper # signs in front of types.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=752141
+
+ gom/gom-sorting.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+commit 9d2bca5ab1f907eec319af8ecb340bcd72c19bd5
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Jul 9 16:27:53 2015 +0200
+
+    doc: Add GomSorting to the documentation
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=752141
+
+ doc/gom-docs.sgml | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 3835899db1835b9876bea6a56771a84843049a8d
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Wed Jul 8 22:42:15 2015 +0200
+
+    sorting: Create the queue in init
+    
+    This is where it should have been from the start, otherwise using
+    g_object_new() won't have the queue created.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=752141
+
+ gom/gom-sorting.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 80cdd480306f79e8a2b7c631bd7f0a063cf04c18
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Wed Jul 8 21:02:25 2015 +0200
+
+    sorting: Fix the enum nicks
+    
+    When I wrote the sorting patches, I was at first using the nick strings
+    as the string to insert in the SQL. As a result, I used "DESC" for the
+    descending mode, and "" for the ascending mode, as for an ascending
+    ORDER BY, you just don't add anything to the SQL.
+    
+    But then I realize it wasn't such a great idea to use the nick strings
+    in this way, so the versions of the sorting patches that got merged
+    don't do that any more.
+    
+    However I kept those nick strings in the enum.
+    
+    Turns out that GI-based bindings use the nick as the identifier for the
+    enum member.
+    
+    For example, in Python, the descending mode would be:
+    
+        Gom.SortingMode.DESC
+    
+    Obviously, the empty string is not a great identifier.
+    
+    This commit fixes that, giving them proper nicks, which make things
+    nicer to use in GI-based bindings.
+
+ gom/gom-sorting.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit f6b9b84dc9be1d23dc09c62ae537fa2fa91cbb52
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat Jun 27 17:54:12 2015 +0200
+
+    sorting: Add an async method
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730581
+
+ gom/gom-repository.c     |  18 ++++++++-
+ gom/gom-repository.h     |   6 +++
+ tests/test-gom-sorting.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 124 insertions(+), 1 deletion(-)
+
+commit 423e1dc364c4c031129a41f4f665eea4e9627125
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat May 16 15:28:07 2015 +0200
+
+    sorting: Support ordering queries
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730581
+
+ .gitignore                |   1 +
+ gom/Makefile.include      |   2 +
+ gom/gom-command-builder.c |  48 +++++
+ gom/gom-repository.c      |  36 ++++
+ gom/gom-repository.h      |   6 +
+ gom/gom-resource-group.c  |  44 +++++
+ gom/gom-sorting.c         | 226 +++++++++++++++++++++++
+ gom/gom-sorting.h         |  68 +++++++
+ gom/gom.h                 |   1 +
+ tests/Makefile.include    |   6 +
+ tests/test-gom-sorting.c  | 453 ++++++++++++++++++++++++++++++++++++++++++++++
+ 11 files changed, 891 insertions(+)
+
+commit 18964de8711d47de43c2fffae71a111517d9942b
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat May 16 12:46:05 2015 +0200
+
+    Ignore some new files
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730581
+
+ .gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit a91010ac26bf2f698f052eba0626a84a734f7eb6
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sun Jul 5 11:32:21 2015 +0200
+
+    repository: Add missing annotation
+    
+    The function allows the filter to be NULL.
+    
+    But without this annotation, not only is the documentation wrong,
+    gobject-introspection will also refuse a None value when calling the
+    function from Python.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=751977
+
+ gom/gom-repository.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6183ad324e74633c2044fdd3700b9e4fd8edb3e6 (tag: 0.3.1)
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Apr 29 11:39:01 2015 +0200
+
+    0.3.1
+
+ NEWS         | 9 +++++++++
+ configure.ac | 4 ++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+commit 51af68df5bfcf143bc8cced02f96c79403884a8f
+Author: Heiher <r@hev.cc>
+Date:   Tue Apr 21 07:51:00 2015 +0800
+
+    gom: Fix converting pointer to GType
+    
+    A gpointer will be the same size as a GType (64-bit), but
+    GPOINTER_TO_INT() will clamp that to int (32-bit) causing crashes
+    when we try to access the invalid GType values.
+    
+    This solves crashes when gom was compiled with "-fPIE -pie" CFLAGS
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=748196
+
+ gom/gom-repository.c | 5 ++---
+ gom/gom-resource.c   | 5 ++---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+commit 363b4669dd8e95c17a35944f1c75cc066792787a
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Tue Apr 14 16:48:39 2015 +0200
+
+    tests: Test id setting and deletion in stress1 test too
+
+ tests/test-gom-stress.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+commit 9fe1ed826d15bda1c4acb12a80ba254b2bfcc28b
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Tue Apr 14 15:49:43 2015 +0200
+
+    gom: Add gom_resource_group_delete_[a]sync functions
+    
+    These are for deleting a group of objects as a transaction.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=747849
+
+ gom/gom-resource-group.c | 146 +++++++++++++++++++++++++++++++++++++++++++++++
+ gom/gom-resource-group.h |   8 +++
+ gom/gom-resource-priv.h  |   3 +
+ gom/gom-resource.c       |   2 +-
+ tests/test-gom-stress.c  |  20 +++++++
+ 5 files changed, 178 insertions(+), 1 deletion(-)
+
+commit 67d76633ffbdb7a566958be24059c4e251491d59
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Tue Apr 14 15:41:35 2015 +0200
+
+    gom: Ensure we update ids when saving a resource group
+    
+    We move the freeing of the items to the destruction of the asyncresult
+    and then we iterate over all items calling gom_resource_set_post_save_properties
+    on a successfull operation.
+    
+    This also updates test-gom-stress to ensure we're getting the right ids
+    when calling gom_resource_group_write_sync().
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=747849
+
+ gom/gom-resource-group.c | 26 +++++++++++++++++++++-----
+ gom/gom-resource-priv.h  | 19 +++++++++++--------
+ gom/gom-resource.c       |  8 ++++----
+ tests/test-gom-stress.c  | 14 +++++++++++++-
+ 4 files changed, 49 insertions(+), 18 deletions(-)
+
+commit f2ef936eace226b6178eb0690ee09b5af155e07a
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Fri Apr 10 14:44:35 2015 +0200
+
+    tests: Add test for IS [NOT] NULL filters
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=747618
+
+ tests/test-gom-find-specific.c | 113 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 112 insertions(+), 1 deletion(-)
+
+commit bcee8b7b67ffb387c24c50def35de54dea33b2f6
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Fri Apr 10 14:44:17 2015 +0200
+
+    filter: Add IS NULL and IS NOT NULL filters
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=747618
+
+ gom/gom-filter.c | 48 +++++++++++++++++++++++++++----
+ gom/gom-filter.h | 86 ++++++++++++++++++++++++++++++--------------------------
+ 2 files changed, 89 insertions(+), 45 deletions(-)
+
+commit d62e3743d82b044669d27832c83ff6a40c07f511
+Author: Álvaro Peña <alvaropg@visual-tools.com>
+Date:   Tue Mar 31 09:31:20 2015 +0200
+
+    resource: Fix saving a modified object again
+    
+    If the resource has been saved correctly in the database, we need to set
+    to TRUE the "is-from-table" data related to the GomResource object. This
+    data is used to set the "is_from_table" internal variable.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=742925
+
+ gom/gom-resource.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 9748e261843207eef144c9142310cc27d021f1fb
+Author: Álvaro Peña <alvaropg@visual-tools.com>
+Date:   Tue Mar 31 09:30:52 2015 +0200
+
+    tests: Update an object after created
+    
+    This test ensures that an object that has been saved can be
+    updated with the same reference.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=742925
+
+ tests/Makefile.include  |   6 ++
+ tests/test-gom-update.c | 207 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 213 insertions(+)
+
+commit bb59a549738f3d34c7701a84f96fc6ad3a5a994e
+Author: Samir Ribic <samir.ribic@etf.unsa.ba>
+Date:   Fri Mar 13 23:37:56 2015 +0000
+
+    Added Bosnian translation
+
+ po/LINGUAS |   1 +
+ po/bs.po   | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 200 insertions(+)
+
+commit 2e4d297d21d3e3a494d986da0951e97397b5ae0c
+Author: Alexander Larsson <alexl@redhat.com>
+Date:   Thu Mar 12 14:52:43 2015 +0100
+
+    Support g_autoptr() for all gom object types
+    
+    This allows you to use e.g. g_autoptr(GomResource) in your code, but
+    does not make gom itself use g_autoptr, or require a new enough glib
+    to support it.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=746095
+
+ gom/Makefile.include   |  1 +
+ gom/gom-autocleanups.h | 40 ++++++++++++++++++++++++++++++++++++++++
+ gom/gom.h              |  2 ++
+ 3 files changed, 43 insertions(+)
+
+commit 283f59307496b848fef6abae3e69fa39ca414b86 (tag: 0.3.0)
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Feb 17 17:23:31 2015 +0100
+
+    0.3.0
+
+ NEWS         | 13 +++++++++++++
+ configure.ac |  4 ++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
+
+commit 333d807b5d8533dc56dc27de496c132c49111b9c
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Feb 17 17:22:58 2015 +0100
+
+    gom: Add libtool versioning
+
+ configure.ac         | 9 +++++++++
+ gom/Makefile.include | 4 ++++
+ 2 files changed, 13 insertions(+)
+
+commit a615f5cc1da473a83f782ea7ee0dee45c2356837
+Author: Christophe Fergeau <cfergeau@redhat.com>
+Date:   Tue Feb 17 16:35:45 2015 +0100
+
+    build-sys: Don't override already set EXTRA_DIST
+    
+    Makefile.tests initializes EXTRA_DIST to "", tests/Makefile.include sets
+    it to a different value rather than appending to it.
+    As Makefile.am is including both, this causes warnings from automake
+    that we are trying to override EXTRA_DIST which was already set.
+    Appending with += fixes this warning.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948
+
+ tests/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 0bf1a9813ac474942eb4c9e6707688ba1c5035bd
+Author: Christophe Fergeau <cfergeau@redhat.com>
+Date:   Tue Feb 17 16:32:38 2015 +0100
+
+    build-sys: Stop using INCLUDES
+    
+    This is deprecated in favour of CPPFLAGS and causes warnings with newer
+    automake versions:
+    doc/Makefile.am:31: warning: 'INCLUDES' is the old name for 'AM_CPPFLAGS' (or '*_CPPFLAGS')
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948
+
+ doc/Makefile.am | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 020ff0fbbee17eda510122550099f8ba08203bd2
+Author: Christophe Fergeau <cfergeau@redhat.com>
+Date:   Tue Feb 17 16:30:47 2015 +0100
+
+    build-sys: Use subdir-objects
+    
+    Recent automake versions complain at autogen.sh time:
+    
+    automake: warning: possible forward-incompatibility.
+    automake: At least a source file is in a subdirectory, but the 'subdir-objects'
+    automake: automake option hasn't been enabled.  For now, the corresponding output
+    automake: object file(s) will be placed in the top-level directory.  However,
+    automake: this behaviour will change in future Automake versions: they will
+    automake: unconditionally cause object files to be placed in the same subdirectory
+    automake: of the corresponding sources.
+    automake: You are advised to start using 'subdir-objects' option throughout your
+    automake: project, to avoid future incompatibilities.
+    gom/Makefile.include:21: warning: source file '$(top_srcdir)/gom/gom-command-builder.c' is in a subdirectory
+    gom/Makefile.include:21: but option 'subdir-objects' is disabled
+    
+    This fixes this warning.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e57b4136c0487d8a60d39e598fb5051159b399e1
+Author: Christophe Fergeau <cfergeau@redhat.com>
+Date:   Tue Feb 17 16:29:18 2015 +0100
+
+    build-sys: Don't use $(top_srcdir) to locate source files
+    
+    This is implicit, and having a variable in source filenames causes
+    issues when used with subdir-objects (see
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948#c5 and following
+    comments).
+    I've checked that make distcheck (ie builddir!=srcdir) is still
+    successful after this change.
+
+ gom/Makefile.include   | 40 ++++++++++++++++++++--------------------
+ tests/Makefile.include | 18 +++++++++---------
+ 2 files changed, 29 insertions(+), 29 deletions(-)
+
+commit 27cd22da69499ae22b2278d95836b250193b0088
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Feb 17 16:09:36 2015 +0100
+
+    gom: Fix invalid write when destroying GomRepository
+    
+    We hold a reference to the GomAdapter, so there's no need to set up a
+    weak pointer, as we'll be the ones destroying it in finalize or when
+    setting a new adapter.
+
+ gom/gom-repository.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 651baa6706de3990384a578ab0db698c463bfc2b
+Author: Enrico Nicoletto <liverig@gmail.com>
+Date:   Mon Jan 26 15:59:06 2015 +0000
+
+    Updated Brazilian Portuguese translation
+
+ po/pt_BR.po | 110 ++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 58 insertions(+), 52 deletions(-)
+
+commit ca037253a0239dbbaa84152d7b9e09efb230a4c4
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Mon Dec 29 11:37:37 2014 +0100
+
+    command: Also debug-print the values of the query
+    
+    This is quite useful when debugging what is going on with a query.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=742180
+
+ gom/gom-command.c | 47 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
+
+commit 7d0a3f32366a96f3faa8204acb04358d09a9696a
+Author: Daniel Mustieles <daniel.mustieles@gmail.com>
+Date:   Mon Jan 12 19:17:06 2015 +0100
+
+    Updated Spanish translation
+
+ po/es.po | 66 ++++++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 37 insertions(+), 29 deletions(-)
+
+commit 11fab3f99d03d2ae707657ed6833cf6182b6bd7b
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Jan 7 13:58:47 2015 +0100
+
+    Revert "build: Use "subdir-objects" for newer autotools"
+    
+    This reverts commit 03f516d729dff0a557408dcebf1945c04e0d3feb.
+    
+    This commit caused build failures. See
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948#c5
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 03f516d729dff0a557408dcebf1945c04e0d3feb
+Author: Joseph Herlant <herlantj@gmail.com>
+Date:   Fri Jan 2 02:14:14 2015 +0000
+
+    build: Use "subdir-objects" for newer autotools
+    
+    This avoids a warning with newer versions of the autotools
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740948
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 34184c1e292d8d0c269d477ef9669a7da0127422
+Author: Patrick Welche <prlw1@cam.ac.uk>
+Date:   Mon Dec 8 19:45:24 2014 +0000
+
+    build: Make gdk-pixbuf an optional dependency
+    
+    gdk-pixbuf is only needed for the unit tests. Instead of bailing
+    if gdk-pixbuf is not found, don't build the tests, i.e., behave as
+    if --disable-glibtest had been specified.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=741219
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 067e5a536677d5f27d350a438c100dea94c72867
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 19:40:28 2014 +0100
+
+    git: Ignore some generated files
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=741261
+
+ .gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 3e70d7bf69ab579c27bfa6c8522a6e53ab11b33e
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 19:53:17 2014 +0100
+
+    tests: Fix some build warnings
+    
+    This removes warnings like:
+        ./tests/test-gom-find-specific.c:67:3: warning: initialization discards ‘const’ qualifier from pointer target type
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=741261
+
+ tests/test-gom-find-specific.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+commit aa22569dd294423cdd6792906f0bcec57a12dcc1
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Tue Nov 25 19:37:28 2014 +0100
+
+    tests: Remove shadowed declarations [-Wshadow]
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=741261
+
+ tests/test-gom-stress.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+commit 991dcc20db650611853529c2d9c7dc49700b248b
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Mon Dec 8 18:51:09 2014 +0100
+
+    tests: Ensure filter priority
+    
+    This runs 2 queries with the same filters, but "grouped" in 2 different
+    ways, to ensure that we respect filtering priorities (i.e parentheses).
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740701
+
+ tests/test-gom-find-specific.c | 71 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+
+commit 2d4e1dbb9f73b8f7667e8ca3c5db48fd6154bb4f
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Mon Dec 8 18:24:31 2014 +0100
+
+    tests: Add more data to the DB
+    
+    This will help better ensuring some filter beheviours.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740701
+
+ tests/test-gom-find-specific.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+commit ac381b1240093f93f1ff3e4c1b60f4c6dd9d8512
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 19:38:51 2014 +0100
+
+    filter: Respect filter priorities
+    
+    This adds parenthesis to the generated SQL queries where appropriate.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740701
+
+ gom/gom-filter.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 021fffc3386ef2414201b147d1396e7b5d763afa
+Author: Balázs Úr <urbalazs@gmail.com>
+Date:   Sun Dec 7 11:50:09 2014 +0000
+
+    Updated Hungarian translation
+
+ po/hu.po | 57 +++++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 31 insertions(+), 26 deletions(-)
+
+commit 9e26704653cfabd86d6835ca93dd63066fe0b5de
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Tue Dec 2 20:52:15 2014 +0100
+
+    filter: Factorize some code
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740872
+
+ gom/gom-filter.c | 28 ++++------------------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
+
+commit 84d9d22eb487f058e57e660ae5aa5d882dbdecf0
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 19:29:36 2014 +0100
+
+    filter: Add new _fullv constructors
+    
+    This is similar to the ones introduced in the previous commit, but the
+    argument is a NULL-temrinated array of GomFilter, rather than using
+    variadic functions.
+    
+    A unit test is also added.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740872
+
+ gom/gom-filter.c               | 54 +++++++++++++++++++++++++++++++
+ gom/gom-filter.h               |  2 ++
+ tests/test-gom-find-specific.c | 72 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 128 insertions(+)
+
+commit fa1f6031061becab0e722be080d272971a465c75
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 19:27:43 2014 +0100
+
+    filter: Add new _full variadic constructors
+    
+    This allows AND-/OR-ing more than 2 subfilters at a time.
+    
+    A unit test is also added.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740872
+
+ gom/gom-filter.c               | 75 ++++++++++++++++++++++++++++++++++++++++++
+ gom/gom-filter.h               |  4 +++
+ tests/test-gom-find-specific.c | 69 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 148 insertions(+)
+
+commit 401d40f53882a0947a36921b7b1bb6c62485bd87
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Thu Nov 27 18:43:07 2014 +0100
+
+    filter: Make subfilters a queue
+    
+    Having subfilters as just two left/right values makes it impossible to
+    have filters with more than 2 subfilters.
+    
+    But it would be very nice if we could have a single filter like:
+    
+        foo=1 AND bar=1 AND baz=0
+    
+    Using a queue for the subfilters makes this possible... and it's coming
+    in a future commit.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740872
+
+ gom/gom-filter.c | 59 ++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 40 insertions(+), 19 deletions(-)
+
+commit e6a7d03daa40610ae47a1718c84e77537a1612d4
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sat Nov 29 09:43:34 2014 +0100
+
+    filter: Free subfilters
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740872
+
+ gom/gom-filter.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 7f594e295c009710318b0874e38d11d27e664b5d
+Author: Мирослав Николић <miroslavnikolic@rocketmail.com>
+Date:   Sat Nov 29 10:43:59 2014 +0100
+
+    Added Serbian translation
+
+ po/LINGUAS     |   2 +
+ po/sr.po       | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ po/sr@latin.po | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 400 insertions(+)
+
+commit 0093368877092b57e1a686ebbc043c81191e3f37
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Nov 26 23:09:01 2014 +0100
+
+    tests: Add a test for finalizing the repo/adapter
+
+ tests/test-gom-repository.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+commit d1f73ee9ddc446e50902b45a9813a188b6c5011d
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Mon Nov 24 21:48:32 2014 +0100
+
+    tests: Test behaviour of the GLOB operator
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740657
+
+ tests/test-gom-find-specific.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+commit 40c70a00398b9175bf05a8447f4dca055a955575
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Mon Nov 24 21:46:17 2014 +0100
+
+    filter: Support the GLOB operator from SQLite
+    
+    http://www.sqlite.org/lang_expr.html#like
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740657
+
+ gom/gom-filter.c | 16 ++++++++++++++--
+ gom/gom-filter.h |  6 +++++-
+ 2 files changed, 19 insertions(+), 3 deletions(-)
+
+commit 7ad20c403980e60e77f5b2cf0acacc1d22da8e5a
+Author: Mathieu Bridon <bochecha@daitauha.fr>
+Date:   Sun Nov 23 20:25:53 2014 +0100
+
+    group: Fix a memory leak
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=740595
+
+ gom/gom-resource-group.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 47f0b6a580b8e1cd16394d9df9f3752d757529d4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Thu Nov 20 10:54:47 2014 +0100
+
+    build: Bump version
+    
+    So that Mathieu can rely on the newer version :)
+
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit b43eb35b1d715dd29c50d792e2f210a481654a9b
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Wed Nov 5 18:21:14 2014 +0100
+
+    gom: Don't do get/set properties in != main thread when reading
+    
+    This is the 2nd part of b14e7044bf5cbfe4b6baac4b3ce66dba7dc8f458.
+    
+    We now try to avoid creating, and setting GomResource items when reading
+    from the database. Instead, the items are created from cached results as
+    needed when gom_resource_group_get_index() is called.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=728301
+
+ gom/gom-resource-group.c | 110 +++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 87 insertions(+), 23 deletions(-)
+
+commit cf1d44520ebb75e608b367f5260dd9558293e09b
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Nov 4 20:10:03 2014 +0100
+
+    gom: Fetch properties when inserted for batched writes
+    
+    This could allow front-ends to avoid blocking for "times n_items" that
+    time when launching the batched write.
+
+ gom/gom-resource-group.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+commit 880b924e9783e68b3b7339b4baeedb1c878b4e93
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Wed Nov 5 13:42:59 2014 +0100
+
+    Updated Polish translation
+
+ po/pl.po | 50 +++++++++++++++++++++++++++-----------------------
+ 1 file changed, 27 insertions(+), 23 deletions(-)
+
+commit 02ab604ef6d29302f96ef0cf1df444621882bff7
+Author: Marek Černocký <marek@manet.cz>
+Date:   Tue Nov 4 21:29:52 2014 +0100
+
+    Updated Czech translation
+
+ po/cs.po | 51 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 24 deletions(-)
+
+commit 5157bef8da360b16926e3bd928ef26af8acf2173
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 19:27:54 2014 +0200
+
+    tests: Add test for batched writes
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730950
+
+ tests/test-gom-stress.c | 112 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 111 insertions(+), 1 deletion(-)
+
+commit 0faa9577dc961a416ef16b884c22a88f3c82345a
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 18:55:39 2014 +0200
+
+    gom: Add support for batched writes
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730950
+
+ gom/gom-resource-group.c | 224 +++++++++++++++++++++++++++++++++++++++++++++++
+ gom/gom-resource-group.h |  13 +++
+ 2 files changed, 237 insertions(+)
+
+commit 5955dc1be8dcddc566bbeec132dbfaf8f7a719d2
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 19:17:04 2014 +0200
+
+    gom: Export gom_resource_do_save() internally
+    
+    So it can be used for saving when already in worker thread.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=730950
+
+ gom/gom-resource-priv.h | 5 +++++
+ gom/gom-resource.c      | 4 ++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+commit b14e7044bf5cbfe4b6baac4b3ce66dba7dc8f458
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Nov 4 13:33:17 2014 +0100
+
+    gom: Don't do get/set properties in != main thread when saving
+    
+    Avoid manipulating properties from within a thread other than the
+    main thread when saving. This breaks Javascript and Python bindings.
+    
+    Note, reading from the database is likely still broken though.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=728301
+
+ gom/gom-resource.c | 120 ++++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 96 insertions(+), 24 deletions(-)
+
+commit e943a41e164c1894927329f8e310c028694af639
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Nov 4 17:09:30 2014 +0100
+
+    gom: Fix unsetting the repo property in GomResource
+    
+    Awkward if ((foo = bar)) construct, and style fixes.
+
+ gom/gom-resource.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+commit 0639c62d2c31c0562f29856bff28bd7e89ea5ae4
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Nov 4 16:57:43 2014 +0100
+
+    gom: Fix setting the repo twice in GomResourceGroup
+
+ gom/gom-resource-group.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 59d8b6f4187e4d8ed81964520617408c3e1568ad
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Tue Nov 4 13:08:53 2014 +0100
+
+    gom: Fix insertion of resources twice removed from GomResource
+    
+    When inserting an object that's a child class to a child class of
+    GomResource, only the first insert is actually an insert, the rest
+    are updates.
+
+ gom/gom-resource.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 69a877747835174a1dbd1da7b382ce359ecd691d
+Author: Andika Triwidada <andika@gmail.com>
+Date:   Wed Oct 15 06:29:10 2014 +0000
+
+    Added Indonesian translation
+
+ po/LINGUAS |   1 +
+ po/id.po   | 191 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 192 insertions(+)
+
+commit dc6164dc7d3c626ce149f03b0b2e41ef515166f9
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Sep 26 20:56:08 2014 +0200
+
+    gom: Don't assert when the primary key isn't set
+    
+    gjs will want to set the primary key after the object has been
+    constructed. We'll assert() at the first use of the resource instead.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=728301
+
+ gom/gom-resource.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit d2e01eda68bd9ffbd30c68151760e3346c53de68
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Sep 26 20:52:57 2014 +0200
+
+    gom: Allow the empty string as an ID
+    
+    gjs doesn't allow null values for string properties, so work-around that
+    by allowing '0' as a value.
+    
+    https://bugzilla.gnome.org/show_bug.cgi?id=728301
+
+ gom/gom-resource.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit cfe86c6a134d1eca7644fb2655213f179cd28aa1
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Sep 26 18:35:29 2014 +0200
+
+    gom: Better warnings for _set_primary_key()
+    
+    By printing the class name that we're modifying.
+
+ gom/gom-resource.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+commit d18d14390d88908a95681947dbafa17496acca22
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Fri Sep 26 18:35:06 2014 +0200
+
+    gom: Fix a format warning
+    
+    By casting GTypes to ints to print them.
+
+ gom/gom-command.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit bd8089928f09690e60ac5ff55235f502f819486c
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 19:01:43 2014 +0200
+
+    tests: Fix stress test when upping NUM_RECORDS
+
+ tests/test-gom-stress.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+commit d738e73e5fef84593ac2968dc2489a5ea569e7d7
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 18:53:07 2014 +0200
+
+    tests: Fix build warnings
+    
+    Unused variables and missing declarations.
+
+ tests/test-gom-constraints.c   | 2 ++
+ tests/test-gom-find-specific.c | 5 ++---
+ tests/test-gom-find.c          | 2 ++
+ tests/test-gom-insert.c        | 7 ++++---
+ tests/test-gom-migration.c     | 2 ++
+ tests/test-gom-stress.c        | 2 ++
+ tests/test-gom-transform.c     | 2 ++
+ 7 files changed, 16 insertions(+), 6 deletions(-)
+
+commit 4a32e86d9545e3496ce5415c1bbf4d42d3548553
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 18:52:46 2014 +0200
+
+    gom: Fix a number of build warnings
+
+ gom/gom-filter.c         |  2 +-
+ gom/gom-resource-group.c | 10 +++++-----
+ gom/gom-resource.c       |  2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 10c349e70b509db2679e17636db2ac302e9e969f
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 18:50:58 2014 +0200
+
+    gom: Fix thinko in is_new_in_version()
+    
+    Don't really want to be doing arithmetic on a pointer.
+
+ gom/gom-command-builder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit d6517c41bf3251c046e64a9b348ee14bc037e6a6
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 18:41:21 2014 +0200
+
+    build: Add warning CFLAGS
+
+ configure.ac           |  1 +
+ gom/Makefile.include   |  1 +
+ tests/Makefile.include | 18 +++++++++---------
+ 3 files changed, 11 insertions(+), 9 deletions(-)
+
+commit 048cb62cbf53cb22a8af955249ee6b5b0907250c
+Author: Bastien Nocera <hadess@hadess.net>
+Date:   Sun Sep 21 02:24:42 2014 +0200
+
+    gom: Remove "adapter" property from GomResourceGroup
+    
+    It wasn't used that much, and duplicated what we could have gotten
+    from GomRepository anyway.
+
+ gom/gom-repository.c     |  2 +-
+ gom/gom-resource-group.c | 49 +++++++-----------------------------------------
+ gom/gom-resource.c       |  1 -
+ 3 files changed, 8 insertions(+), 44 deletions(-)
+
+commit 24d2090fcadf530e3c303ef2c8d7ae2b374a87c0
+Author: Balázs Úr <urbalazs@gmail.com>
+Date:   Thu Sep 11 18:26:35 2014 +0000
+
+    Updated Hungarian translation
+
+ po/hu.po | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+commit dc3de04150eb9879f8d0e45bff6bef0150dcf5c4
+Author: Christian Hergert <christian@hergert.me>
+Date:   Tue Sep 9 13:29:18 2014 -0700
+
+    license: update COPYING to LGPL 2.1+ to match file headers.
+
+ COPYING | 657 ++++++++++++++++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 497 insertions(+), 160 deletions(-)
+
+commit fcb898411ee7969c376478bba3da3a8d95f98d14
+Author: Marek Černocký <marek@manet.cz>
+Date:   Tue Sep 9 21:22:21 2014 +0200
+
+    Updated Czech translation
+
+ po/cs.po | 84 ++++++++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 42 insertions(+), 42 deletions(-)
+
+commit 9d6e201a48c925d0a0a91c843a9797f827460554
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Sun Sep 7 02:48:16 2014 +0200
+
+    Added Polish translation
+
+ po/LINGUAS |   1 +
+ po/pl.po   | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 200 insertions(+)
+
+commit 100883735ca4c8b38aafe24f28e847b2cc0d29bc
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Sun Sep 7 02:47:34 2014 +0200
+
+    Fix typo
+
+ gom/gom-filter.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit df89f8792416de47df778de6df5adc3a0a92481d (tag: 0.2.1)
 Author: Bastien Nocera <hadess@hadess.net>
 Date:   Mon Aug 18 12:34:53 2014 +0200
 
@@ -142,7 +1469,7 @@ Date:   Mon Jun 16 12:19:07 2014 +0200
  gom/gom-command.c         | 12 ++++++++++++
  2 files changed, 16 insertions(+)
 
-commit 01837602b079bc6b3e0a62947989728fc448edac
+commit 01837602b079bc6b3e0a62947989728fc448edac (tag: 0.2.0)
 Author: Bastien Nocera <hadess@hadess.net>
 Date:   Mon Jun 2 10:48:28 2014 +0200
 

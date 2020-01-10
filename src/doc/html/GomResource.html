@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Gom Reference Manual: GomResource</title>
+<title>GomResource: Gom Reference Manual</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Gom Reference Manual">
 <link rel="up" href="ch01.html" title="Gom API Reference">
 <link rel="prev" href="GomRepository.html" title="GomRepository">
 <link rel="next" href="GomResourceGroup.html" title="GomResourceGroup">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -72,8 +72,16 @@
 <td class="function_name"><a class="link" href="GomResource.html#GOM-RESOURCE-REF-PROPERTY-NAME:CAPS" title="GOM_RESOURCE_REF_PROPERTY_NAME">GOM_RESOURCE_REF_PROPERTY_NAME</a></td>
 </tr>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="GomResource.html#GOM-RESOURCE-UNIQUE:CAPS" title="GOM_RESOURCE_UNIQUE">GOM_RESOURCE_UNIQUE</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="GomResource.html#GOM-RESOURCE-NOTNULL:CAPS" title="GOM_RESOURCE_NOTNULL">GOM_RESOURCE_NOTNULL</a></td>
+</tr>
+<tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="returnvalue">GBytes</span></a> *
+<a href="https://developer.gnome.org/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="returnvalue">GBytes</span></a> *
 </td>
 <td class="function_name">
 <span class="c_punctuation">(</span><a class="link" href="GomResource.html#GomResourceToBytesFunc" title="GomResourceToBytesFunc ()">*GomResourceToBytesFunc</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
@@ -85,6 +93,70 @@
 </td>
 <td class="function_name">
 <span class="c_punctuation">(</span><a class="link" href="GomResource.html#GomResourceFromBytesFunc" title="GomResourceFromBytesFunc ()">*GomResourceFromBytesFunc</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-new-in-version-quark" title="gom_resource_new_in_version_quark ()">gom_resource_new_in_version_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-not-mapped-quark" title="gom_resource_not_mapped_quark ()">gom_resource_not_mapped_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-to-bytes-func-quark" title="gom_resource_to_bytes_func_quark ()">gom_resource_to_bytes_func_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-from-bytes-func-quark" title="gom_resource_from_bytes_func_quark ()">gom_resource_from_bytes_func_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-ref-table-class" title="gom_resource_ref_table_class ()">gom_resource_ref_table_class</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-ref-property-name" title="gom_resource_ref_property_name ()">gom_resource_ref_property_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-unique" title="gom_resource_unique ()">gom_resource_unique</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-notnull" title="gom_resource_notnull ()">gom_resource_notnull</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -132,7 +204,39 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-class-set-property-to-bytes" title="gom_resource_class_set_property_to_bytes ()">gom_resource_class_set_property_to_bytes</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-class-set-property-from-bytes" title="gom_resource_class_set_property_from_bytes ()">gom_resource_class_set_property_from_bytes</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
 <a class="link" href="GomResource.html#gom-resource-class-set-reference" title="gom_resource_class_set_reference ()">gom_resource_class_set_reference</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-class-set-unique" title="gom_resource_class_set_unique ()">gom_resource_class_set_unique</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomResource.html#gom-resource-class-set-notnull" title="gom_resource_class_set_notnull ()">gom_resource_class_set_notnull</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -145,7 +249,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomResource.html#gom-resource-delete-finish" title="gom_resource_delete_finish ()">gom_resource_delete_finish</a> <span class="c_punctuation">()</span>
@@ -153,58 +257,10 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomResource.html#gom-resource-delete-sync" title="gom_resource_delete_sync ()">gom_resource_delete_sync</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-new-in-version-quark" title="gom_resource_new_in_version_quark ()">gom_resource_new_in_version_quark</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-not-mapped-quark" title="gom_resource_not_mapped_quark ()">gom_resource_not_mapped_quark</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-to-bytes-func-quark" title="gom_resource_to_bytes_func_quark ()">gom_resource_to_bytes_func_quark</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-from-bytes-func-quark" title="gom_resource_from_bytes_func_quark ()">gom_resource_from_bytes_func_quark</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-ref-table-class" title="gom_resource_ref_table_class ()">gom_resource_ref_table_class</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="GomResource.html#gom-resource-ref-property-name" title="gom_resource_ref_property_name ()">gom_resource_ref_property_name</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -217,7 +273,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomResource.html#gom-resource-save-finish" title="gom_resource_save_finish ()">gom_resource_save_finish</a> <span class="c_punctuation">()</span>
@@ -225,7 +281,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomResource.html#gom-resource-save-sync" title="gom_resource_save_sync ()">gom_resource_save_sync</a> <span class="c_punctuation">()</span>
@@ -268,14 +324,12 @@
 </div>
 <div class="refsect1">
 <a name="GomResource.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+<pre class="screen">    <a href="https://developer.gnome.org/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> GomResource
 </pre>
 </div>
 <div class="refsect1">
 <a name="GomResource.description"></a><h2>Description</h2>
-<p>
-</p>
 </div>
 <div class="refsect1">
 <a name="GomResource.functions_details"></a><h2>Functions</h2>
@@ -283,95 +337,129 @@
 <a name="GOM-RESOURCE-CONST:CAPS"></a><h3>GOM_RESOURCE_CONST()</h3>
 <pre class="programlisting">#define GOM_RESOURCE_CONST(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOM_TYPE_RESOURCE, GomResource const))
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-NEW-IN-VERSION:CAPS"></a><h3>GOM_RESOURCE_NEW_IN_VERSION</h3>
 <pre class="programlisting">#define GOM_RESOURCE_NEW_IN_VERSION  (gom_resource_new_in_version_quark())
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-NOT-MAPPED:CAPS"></a><h3>GOM_RESOURCE_NOT_MAPPED</h3>
 <pre class="programlisting">#define GOM_RESOURCE_NOT_MAPPED      (gom_resource_not_mapped_quark())
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-TO-BYTES-FUNC:CAPS"></a><h3>GOM_RESOURCE_TO_BYTES_FUNC</h3>
 <pre class="programlisting">#define GOM_RESOURCE_TO_BYTES_FUNC   (gom_resource_to_bytes_func_quark())
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-FROM-BYTES-FUNC:CAPS"></a><h3>GOM_RESOURCE_FROM_BYTES_FUNC</h3>
 <pre class="programlisting">#define GOM_RESOURCE_FROM_BYTES_FUNC (gom_resource_from_bytes_func_quark())
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-REF-TABLE-CLASS:CAPS"></a><h3>GOM_RESOURCE_REF_TABLE_CLASS</h3>
 <pre class="programlisting">#define GOM_RESOURCE_REF_TABLE_CLASS (gom_resource_ref_table_class())
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GOM-RESOURCE-REF-PROPERTY-NAME:CAPS"></a><h3>GOM_RESOURCE_REF_PROPERTY_NAME</h3>
 <pre class="programlisting">#define GOM_RESOURCE_REF_PROPERTY_NAME (gom_resource_ref_property_name())
 </pre>
-<p>
-</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GOM-RESOURCE-UNIQUE:CAPS"></a><h3>GOM_RESOURCE_UNIQUE</h3>
+<pre class="programlisting">#define GOM_RESOURCE_UNIQUE          (gom_resource_unique())
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GOM-RESOURCE-NOTNULL:CAPS"></a><h3>GOM_RESOURCE_NOTNULL</h3>
+<pre class="programlisting">#define GOM_RESOURCE_NOTNULL         (gom_resource_notnull())
+</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GomResourceToBytesFunc"></a><h3>GomResourceToBytesFunc ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="returnvalue">GBytes</span></a> *
-<span class="c_punctuation">(</span>*GomResourceToBytesFunc<span class="c_punctuation">)</span> (<em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.9.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="returnvalue">GBytes</span></a> *
+<span class="c_punctuation">(</span>*GomResourceToBytesFunc<span class="c_punctuation">)</span> (<em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GomResourceFromBytesFunc"></a><h3>GomResourceFromBytesFunc ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-<span class="c_punctuation">(</span>*GomResourceFromBytesFunc<span class="c_punctuation">)</span> (<em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="type">GBytes</span></a> *bytes</code></em>,
-                             <em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
-<p>
-</p>
+<span class="c_punctuation">(</span>*GomResourceFromBytesFunc<span class="c_punctuation">)</span> (<em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Byte-Arrays.html#GBytes"><span class="type">GBytes</span></a> *bytes</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Generic-values.html#GValue"><span class="type">GValue</span></a> *value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-new-in-version-quark"></a><h3>gom_resource_new_in_version_quark ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_new_in_version_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-not-mapped-quark"></a><h3>gom_resource_not_mapped_quark ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_not_mapped_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-to-bytes-func-quark"></a><h3>gom_resource_to_bytes_func_quark ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_to_bytes_func_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-from-bytes-func-quark"></a><h3>gom_resource_from_bytes_func_quark ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_from_bytes_func_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-ref-table-class"></a><h3>gom_resource_ref_table_class ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_ref_table_class (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-ref-property-name"></a><h3>gom_resource_ref_property_name ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_ref_property_name (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-unique"></a><h3>gom_resource_unique ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_unique (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-notnull"></a><h3>gom_resource_notnull ()</h3>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+gom_resource_notnull (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-class-set-table"></a><h3>gom_resource_class_set_table ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_table (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                              <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *table</code></em>);</pre>
-<p>
-</p>
+                              <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *table</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-class-set-primary-key"></a><h3>gom_resource_class_set_primary_key ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_primary_key (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                                    <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *primary_key</code></em>);</pre>
-<p>
-</p>
+                                    <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *primary_key</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -379,10 +467,8 @@ gom_resource_class_set_primary_key (<em class="parameter"><code><span class="typ
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_property_new_in_version
                                (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                                <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>);</pre>
-<p>
-</p>
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -390,10 +476,8 @@ gom_resource_class_set_property_new_in_version
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_property_set_mapped
                                (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                                <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> is_mapped</code></em>);</pre>
-<p>
-</p>
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> is_mapped</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -401,55 +485,80 @@ gom_resource_class_set_property_set_mapped
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_property_transform
                                (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                                <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
                                 <em class="parameter"><code><a class="link" href="GomResource.html#GomResourceToBytesFunc" title="GomResourceToBytesFunc ()"><span class="type">GomResourceToBytesFunc</span></a> to_bytes_func</code></em>,
                                 <em class="parameter"><code><a class="link" href="GomResource.html#GomResourceFromBytesFunc" title="GomResourceFromBytesFunc ()"><span class="type">GomResourceFromBytesFunc</span></a> from_bytes_func</code></em>);</pre>
+<p><span class="annotation">[<acronym title="Exposed in C code, not necessarily available in other languages."><span class="acronym">skip</span></acronym>]</span></p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-class-set-property-to-bytes"></a><h3>gom_resource_class_set_property_to_bytes ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_resource_class_set_property_to_bytes
+                               (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                <em class="parameter"><code><a class="link" href="GomResource.html#GomResourceToBytesFunc" title="GomResourceToBytesFunc ()"><span class="type">GomResourceToBytesFunc</span></a> to_bytes_func</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> notify</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-class-set-property-from-bytes"></a><h3>gom_resource_class_set_property_from_bytes ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_resource_class_set_property_from_bytes
+                               (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                <em class="parameter"><code><a class="link" href="GomResource.html#GomResourceFromBytesFunc" title="GomResourceFromBytesFunc ()"><span class="type">GomResourceFromBytesFunc</span></a> from_bytes_func</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Datasets.html#GDestroyNotify"><span class="type">GDestroyNotify</span></a> notify</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-class-set-reference"></a><h3>gom_resource_class_set_reference ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_class_set_reference (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
-                                  <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
-                                  <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ref_table_name</code></em>,
-                                  <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ref_property_name</code></em>);</pre>
-<p>
-</p>
+                                  <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>,
+                                  <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ref_table_name</code></em>,
+                                  <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *ref_property_name</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-class-set-unique"></a><h3>gom_resource_class_set_unique ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_resource_class_set_unique (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
+                               <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-resource-class-set-notnull"></a><h3>gom_resource_class_set_notnull ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_resource_class_set_notnull (<em class="parameter"><code><span class="type">GomResourceClass</span> *resource_class</code></em>,
+                                <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *property_name</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-delete-async"></a><h3>gom_resource_delete_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_delete_async (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-delete-finish"></a><h3>gom_resource_delete_finish ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_resource_delete_finish (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.18.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+                            <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-delete-sync"></a><h3>gom_resource_delete_sync ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_resource_delete_sync (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Synchronously deletes a resource. This may only be called from inside a
 callback to <a class="link" href="GomAdapter.html#gom-adapter-queue-write" title="gom_adapter_queue_write ()"><code class="function">gom_adapter_queue_write()</code></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.19.5"></a><h4>Parameters</h4>
+<a name="id-1.2.8.7.33.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -464,89 +573,16 @@ callback to <a class="link" href="GomAdapter.html#gom-adapter-queue-write" title
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.19.6"></a><h4>Returns</h4>
-<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if successful; otherwise <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> and <em class="parameter"><code>error</code></em>
+<a name="id-1.2.8.7.33.6"></a><h4>Returns</h4>
+<p> <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if successful; otherwise <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> and <em class="parameter"><code>error</code></em>
 is set.</p>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-new-in-version-quark"></a><h3>gom_resource_new_in_version_quark ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_new_in_version_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.20.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-not-mapped-quark"></a><h3>gom_resource_not_mapped_quark ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_not_mapped_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.21.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-to-bytes-func-quark"></a><h3>gom_resource_to_bytes_func_quark ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_to_bytes_func_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.22.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-from-bytes-func-quark"></a><h3>gom_resource_from_bytes_func_quark ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_from_bytes_func_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.23.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-ref-table-class"></a><h3>gom_resource_ref_table_class ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_ref_table_class (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.24.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="gom-resource-ref-property-name"></a><h3>gom_resource_ref_property_name ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
-gom_resource_ref_property_name (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.25.5"></a><h4>Returns</h4>
-<p></p>
 </div>
 </div>
 <hr>
@@ -554,33 +590,25 @@ gom_resource_ref_property_name (<em class="parameter"><code><span class="type">v
 <a name="gom-resource-save-async"></a><h3>gom_resource_save_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_save_async (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+                         <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                         <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-save-finish"></a><h3>gom_resource_save_finish ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_resource_save_finish (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.8.7.27.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+                          <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-save-sync"></a><h3>gom_resource_save_sync ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_resource_save_sync (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                        <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.8.7.28.4"></a><h4>Parameters</h4>
+<a name="id-1.2.8.7.36.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -595,16 +623,15 @@ gom_resource_save_sync (<em class="parameter"><code><a class="link" href="GomRes
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.28.5"></a><h4>Returns</h4>
-<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if successful; otherwise <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>.</p>
-<p></p>
+<a name="id-1.2.8.7.36.5"></a><h4>Returns</h4>
+<p> <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if successful; otherwise <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>.</p>
 </div>
 </div>
 <hr>
@@ -612,25 +639,23 @@ gom_resource_save_sync (<em class="parameter"><code><a class="link" href="GomRes
 <a name="gom-resource-fetch-m2m-async"></a><h3>gom_resource_fetch_m2m_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_resource_fetch_m2m_async (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
-                              <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *m2m_table</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                              <em class="parameter"><code>const <a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *m2m_table</code></em>,
                               <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+                              <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-resource-fetch-m2m-finish"></a><h3>gom_resource_fetch_m2m_finish ()</h3>
 <pre class="programlisting"><a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
 gom_resource_fetch_m2m_finish (<em class="parameter"><code><a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> *resource</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                               <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Completes the asynchronous request to fetch a group of resources that
 are related to the resource through a many-to-many table.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.30.5"></a><h4>Parameters</h4>
+<a name="id-1.2.8.7.38.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -645,19 +670,19 @@ are related to the resource through a many-to-many table.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p> A <a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
+<td class="parameter_description"><p> A <a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.30.6"></a><h4>Returns</h4>
+<a name="id-1.2.8.7.38.6"></a><h4>Returns</h4>
 <p> A <a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="type">GomResourceGroup</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -677,7 +702,6 @@ are related to the resource through a many-to-many table.</p>
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.24</div>
 </body>
 </html>

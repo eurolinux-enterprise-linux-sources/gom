@@ -24,6 +24,7 @@
 #include "gom-filter.h"
 #include "gom-resource.h"
 #include "gom-resource-priv.h"
+#include "gom-sorting.h"
 
 G_DEFINE_TYPE(GomCommandBuilder, gom_command_builder, G_TYPE_OBJECT)
 
@@ -31,6 +32,7 @@ struct _GomCommandBuilderPrivate
 {
    GomAdapter *adapter;
    GomFilter *filter;
+   GomSorting *sorting;
    GType resource_type;
    guint limit;
    guint offset;
@@ -43,6 +45,7 @@ enum
    PROP_0,
    PROP_ADAPTER,
    PROP_FILTER,
+   PROP_SORTING,
    PROP_LIMIT,
    PROP_M2M_TABLE,
    PROP_M2M_TYPE,
@@ -119,7 +122,18 @@ is_new_in_version (GParamSpec *pspec,
    /* This is a bit ugly, but this allows us to consider
     * an unset value to be new in version 1. Version 0
     * is for "pre-GOM" SQLite usage. */
-   return GPOINTER_TO_INT(g_param_spec_get_qdata(pspec, GOM_RESOURCE_NEW_IN_VERSION) + 1) == version;
+   return (GPOINTER_TO_INT(g_param_spec_get_qdata(pspec, GOM_RESOURCE_NEW_IN_VERSION)) + 1) == version;
+}
+
+static gboolean
+table_is_new_in_version (GomResourceClass *klass,
+                         guint             version)
+{
+   GParamSpec *primary_pspec;
+
+   primary_pspec = g_object_class_find_property(G_OBJECT_CLASS(klass),
+                                                klass->primary_key);
+   return is_new_in_version(primary_pspec, version);
 }
 
 static void
@@ -350,6 +364,32 @@ add_where (GString     *str,
 }
 
 static void
+add_order_by (GString *str,
+              GType        m2m_type,
+              const gchar *m2m_table,
+              GomSorting *sorting)
+{
+   GHashTable *table_map = NULL;
+   gchar *sql;
+
+   if (sorting) {
+      if (m2m_type) {
+         table_map = g_hash_table_new_full(g_str_hash, g_str_equal,
+                                           g_free, g_free);
+         build_map(table_map, m2m_type, m2m_table);
+      }
+
+      sql = gom_sorting_get_sql(sorting, table_map);
+      g_string_append_printf(str, " ORDER BY %s ", sql);
+      g_free(sql);
+
+      if (table_map) {
+         g_hash_table_destroy(table_map);
+      }
+   }
+}
+
+static void
 add_limit (GString *str,
            guint    limit)
 {
@@ -419,8 +459,8 @@ gom_command_builder_build_create (GomCommandBuilder *builder,
 
    pspecs = g_object_class_list_properties(G_OBJECT_CLASS(klass), &n_pspecs);
 
-   /* Create the table if it doesn't already exist*/
-   if (version == 1) {
+   /* Create the table if it doesn't already exist */
+   if (table_is_new_in_version(klass, version)) {
       str = g_string_new("CREATE TABLE IF NOT EXISTS ");
       add_table_name(str, klass);
       g_string_append(str, "(");
@@ -511,6 +551,7 @@ gom_command_builder_build_select (GomCommandBuilder *builder)
    add_joins(str, klass);
    add_m2m(str, klass, priv->m2m_table, priv->m2m_type);
    add_where(str, priv->m2m_type, priv->m2m_table, priv->filter);
+   add_order_by(str, priv->m2m_type, priv->m2m_table, priv->sorting);
    add_limit(str, priv->limit);
    add_offset(str, priv->offset);
 
@@ -759,9 +800,7 @@ gom_command_builder_build_insert (GomCommandBuilder *builder,
    }
 
    g_type_class_unref(klass);
-   if (str) {
-      g_string_free(str, TRUE);
-   }
+   g_string_free(str, TRUE);
    g_free(pspecs);
 
    return command;
@@ -845,11 +884,7 @@ gom_command_builder_build_update (GomCommandBuilder *builder,
    }
 
    g_type_class_unref(klass);
-
-   if (str) {
-      g_string_free(str, TRUE);
-   }
-
+   g_string_free(str, TRUE);
    g_free(pspecs);
 
    return command;
@@ -869,6 +904,7 @@ gom_command_builder_finalize (GObject *object)
 
    g_clear_object(&priv->adapter);
    g_clear_object(&priv->filter);
+   g_clear_object(&priv->sorting);
    g_free(priv->m2m_table);
 
    G_OBJECT_CLASS(gom_command_builder_parent_class)->finalize(object);
@@ -897,6 +933,9 @@ gom_command_builder_get_property (GObject    *object,
       break;
    case PROP_FILTER:
       g_value_set_object(value, builder->priv->filter);
+      break;
+   case PROP_SORTING:
+      g_value_set_object(value, builder->priv->sorting);
       break;
    case PROP_LIMIT:
       g_value_set_uint(value, builder->priv->limit);
@@ -943,6 +982,11 @@ gom_command_builder_set_property (GObject      *object,
    case PROP_FILTER:
       g_clear_object(&builder->priv->filter);
       builder->priv->filter = g_value_dup_object(value);
+      g_object_notify_by_pspec(object, pspec);
+      break;
+   case PROP_SORTING:
+      g_clear_object(&builder->priv->sorting);
+      builder->priv->sorting = g_value_dup_object(value);
       g_object_notify_by_pspec(object, pspec);
       break;
    case PROP_LIMIT:
@@ -1004,6 +1048,15 @@ gom_command_builder_class_init (GomCommandBuilderClass *klass)
                           G_PARAM_READWRITE);
    g_object_class_install_property(object_class, PROP_FILTER,
                                    gParamSpecs[PROP_FILTER]);
+
+   gParamSpecs[PROP_SORTING] =
+      g_param_spec_object("sorting",
+                          _("Sorting"),
+                          _("The sorting for the command."),
+                          GOM_TYPE_SORTING,
+                          G_PARAM_READWRITE);
+   g_object_class_install_property(object_class, PROP_SORTING,
+                                   gParamSpecs[PROP_SORTING]);
 
    gParamSpecs[PROP_LIMIT] =
       g_param_spec_uint("limit",

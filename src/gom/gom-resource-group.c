@@ -27,56 +27,401 @@
 #include "gom-resource.h"
 #include "gom-resource-priv.h"
 #include "gom-resource-group.h"
+#include "gom-sorting.h"
 
 G_DEFINE_TYPE(GomResourceGroup, gom_resource_group, G_TYPE_OBJECT)
 
 struct _GomResourceGroupPrivate
 {
    GomRepository *repository;
-   GomAdapter *adapter;
+
+   /* Read group */
    guint count;
    GomFilter *filter;
+   GomSorting *sorting;
    GType resource_type;
    GHashTable *items;
    gchar *m2m_table;
    GType m2m_type;
+
+   /* Write group */
+   gboolean is_writable;
+   GPtrArray *to_write;
 };
 
 enum
 {
    PROP_0,
-   PROP_ADAPTER,
    PROP_COUNT,
    PROP_FILTER,
+   PROP_SORTING,
    PROP_M2M_TABLE,
    PROP_M2M_TYPE,
    PROP_RESOURCE_TYPE,
    PROP_REPOSITORY,
+   PROP_IS_WRITABLE,
    LAST_PROP
 };
 
+typedef struct {
+   GomResource *resource;
+   GHashTable  *ht;
+} ItemData;
+
 static GParamSpec *gParamSpecs[LAST_PROP];
 
-GomAdapter *
-gom_resource_group_get_adapter (GomResourceGroup *group)
+GomResourceGroup *
+gom_resource_group_new (GomRepository *repository)
 {
-   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
-   return group->priv->adapter;
+   GomResourceGroup *group;
+
+   group = g_object_new(GOM_TYPE_RESOURCE_GROUP,
+                        "repository", repository,
+                        "is-writable", TRUE,
+                        NULL);
+   return group;
+}
+
+gboolean
+gom_resource_group_append (GomResourceGroup *group,
+			   GomResource      *resource)
+{
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(GOM_IS_RESOURCE(resource), FALSE);
+
+   if (!group->priv->to_write)
+      group->priv->to_write = g_ptr_array_new_with_free_func(g_object_unref);
+   gom_resource_build_save_cmd(resource, gom_repository_get_adapter(group->priv->repository));
+   g_ptr_array_add (group->priv->to_write, g_object_ref(resource));
+
+   return TRUE;
+}
+
+#define EXECUTE_OR_GOTO(adaper, sql, error, label)       \
+   G_STMT_START {                                        \
+      GomCommand *c = g_object_new(GOM_TYPE_COMMAND,     \
+                                   "adapter", adapter,   \
+                                   "sql", sql,           \
+                                   NULL);                \
+      if (!gom_command_execute(c, NULL, error)) {        \
+         g_object_unref(c);                              \
+         goto label;                                     \
+      }                                                  \
+      g_object_unref(c);                                 \
+   } G_STMT_END
+
+static void
+gom_resource_group_write_cb (GomAdapter *adapter,
+                             gpointer    user_data)
+{
+   GSimpleAsyncResult *simple = user_data;
+   GomResourceGroup *group;
+   GError *error = NULL;
+   GAsyncQueue *queue;
+   guint i;
+   gboolean got_error;
+   GPtrArray *items;
+
+   g_return_if_fail(GOM_IS_ADAPTER(adapter));
+   g_return_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple));
+
+   group = GOM_RESOURCE_GROUP(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
+
+   g_assert(GOM_IS_ADAPTER(adapter));
+
+   items = g_object_get_data(G_OBJECT(simple), "items");
+   queue = g_object_get_data(G_OBJECT(simple), "queue");
+
+   /* do BEGIN */
+   EXECUTE_OR_GOTO(adapter, "BEGIN;", &error, rollback);
+
+   got_error = FALSE;
+
+   for (i = 0; i < items->len; i++) {
+      GomResource *item;
+
+      item = g_ptr_array_index(items, i);
+      if (got_error ||
+          !gom_resource_do_save (item, adapter, &error)) {
+        got_error = TRUE;
+      }
+   }
+
+   if (got_error)
+      goto rollback;
+
+   EXECUTE_OR_GOTO(adapter, "COMMIT;", &error, rollback);
+
+   g_simple_async_result_set_op_res_gboolean(simple, TRUE);
+   goto out;
+
+rollback:
+   EXECUTE_OR_GOTO(adapter, "ROLLBACK;", NULL, error);
+
+error:
+   g_assert(error);
+   g_simple_async_result_take_error(simple, error);
+
+out:
+   g_object_unref(group);
+   if (!queue)
+      g_simple_async_result_complete_in_idle(simple);
+   else
+      g_async_queue_push(queue, GINT_TO_POINTER(TRUE));
+}
+
+gboolean
+gom_resource_group_write_sync (GomResourceGroup  *group,
+                               GError           **error)
+{
+   GSimpleAsyncResult *simple;
+   gboolean ret;
+   GAsyncQueue *queue;
+   GomAdapter *adapter;
+   GPtrArray *items;
+   int i;
+
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(group->priv->is_writable, FALSE);
+
+   queue = g_async_queue_new();
+
+   simple = g_simple_async_result_new(G_OBJECT(group), NULL, NULL,
+                                      gom_resource_group_write_sync);
+   if (!group->priv->to_write)
+      return TRUE;
+
+   g_object_set_data(G_OBJECT(simple), "queue", queue);
+   items = group->priv->to_write;
+   g_object_set_data_full(G_OBJECT(simple), "items", items, (GDestroyNotify)g_ptr_array_unref);
+   group->priv->to_write = NULL;
+
+   adapter = gom_repository_get_adapter(group->priv->repository);
+   gom_adapter_queue_write(adapter, gom_resource_group_write_cb, simple);
+   g_async_queue_pop(queue);
+   g_async_queue_unref(queue);
+
+   if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
+      g_simple_async_result_propagate_error(simple, error);
+   } else {
+      for (i=0; i < items->len; i++) {
+         GomResource *item = g_ptr_array_index(items, i);
+
+         gom_resource_set_post_save_properties (item);
+      }
+   }
+
+   g_object_unref(simple);
+
+   return ret;
+}
+
+void
+gom_resource_group_write_async (GomResourceGroup    *group,
+                                GAsyncReadyCallback  callback,
+                                gpointer             user_data)
+{
+   GomResourceGroupPrivate *priv;
+   GSimpleAsyncResult *simple;
+   GomAdapter *adapter;
+
+   g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
+   g_return_if_fail(callback != NULL);
+   g_return_if_fail(group->priv->is_writable);
+
+   priv = group->priv;
+
+   simple = g_simple_async_result_new(G_OBJECT(group), callback, user_data,
+                                      gom_resource_group_write_async);
+   if (!group->priv->to_write) {
+      g_simple_async_result_set_op_res_gboolean(simple, TRUE);
+      g_simple_async_result_complete_in_idle(simple);
+      return;
+   }
+
+   g_object_set_data_full(G_OBJECT(simple), "items", group->priv->to_write, (GDestroyNotify)g_ptr_array_unref);
+   group->priv->to_write = NULL;
+
+   adapter = gom_repository_get_adapter(priv->repository);
+   gom_adapter_queue_read(adapter, gom_resource_group_write_cb, simple);
+}
+
+gboolean
+gom_resource_group_write_finish (GomResourceGroup  *group,
+                                 GAsyncResult      *result,
+                                 GError           **error)
+{
+   GSimpleAsyncResult *simple = (GSimpleAsyncResult *)result;
+   GPtrArray *items;
+   gboolean ret;
+   int i;
+
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple), FALSE);
+   g_return_val_if_fail(group->priv->is_writable, FALSE);
+
+   if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
+      g_simple_async_result_propagate_error(simple, error);
+   } else {
+      items = g_object_get_data(G_OBJECT(simple), "items");
+      for (i=0; i < items->len; i++) {
+         GomResource *item = g_ptr_array_index(items, i);
+
+         gom_resource_set_post_save_properties (item);
+      }
+   }
+   g_object_unref(simple);
+
+   return ret;
 }
 
 static void
-gom_resource_group_set_adapter (GomResourceGroup *group,
-                                GomAdapter       *adapter)
+gom_resource_group_delete_cb (GomAdapter *adapter,
+                              gpointer    user_data)
 {
-   g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
-   g_return_if_fail(GOM_IS_ADAPTER(adapter));
+   GSimpleAsyncResult *simple = user_data;
+   GomResourceGroup *group;
+   GError *error = NULL;
+   GAsyncQueue *queue;
+   guint i;
+   gboolean got_error;
+   GPtrArray *items;
 
-   g_clear_object(&group->priv->adapter);
-   group->priv->adapter = g_object_ref(adapter);
-   g_object_notify_by_pspec(G_OBJECT(group), gParamSpecs[PROP_ADAPTER]);
+   g_return_if_fail(GOM_IS_ADAPTER(adapter));
+   g_return_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple));
+
+   group = GOM_RESOURCE_GROUP(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
+
+   g_assert(GOM_IS_ADAPTER(adapter));
+
+   items = g_object_get_data(G_OBJECT(simple), "items");
+   queue = g_object_get_data(G_OBJECT(simple), "queue");
+
+   /* do BEGIN */
+   EXECUTE_OR_GOTO(adapter, "BEGIN;", &error, rollback);
+
+   got_error = FALSE;
+
+   for (i = 0; i < items->len; i++) {
+      GomResource *item;
+
+      item = g_ptr_array_index(items, i);
+      if (got_error ||
+          !gom_resource_do_delete (item, adapter, &error)) {
+        got_error = TRUE;
+      }
+   }
+
+   if (got_error)
+      goto rollback;
+
+   EXECUTE_OR_GOTO(adapter, "COMMIT;", &error, rollback);
+
+   g_simple_async_result_set_op_res_gboolean(simple, TRUE);
+   goto out;
+
+rollback:
+   EXECUTE_OR_GOTO(adapter, "ROLLBACK;", NULL, error);
+
+error:
+   g_assert(error);
+   g_simple_async_result_take_error(simple, error);
+
+out:
+   g_object_unref(group);
+   if (!queue)
+      g_simple_async_result_complete_in_idle(simple);
+   else
+      g_async_queue_push(queue, GINT_TO_POINTER(TRUE));
 }
 
-GomFilter *
+gboolean
+gom_resource_group_delete_sync (GomResourceGroup  *group,
+                                GError           **error)
+{
+   GSimpleAsyncResult *simple;
+   gboolean ret;
+   GAsyncQueue *queue;
+   GomAdapter *adapter;
+
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(group->priv->is_writable, FALSE);
+
+   queue = g_async_queue_new();
+
+   simple = g_simple_async_result_new(G_OBJECT(group), NULL, NULL,
+                                      gom_resource_group_delete_sync);
+   if (!group->priv->to_write)
+      return TRUE;
+
+   g_object_set_data(G_OBJECT(simple), "queue", queue);
+   g_object_set_data_full(G_OBJECT(simple), "items", group->priv->to_write, (GDestroyNotify)g_ptr_array_unref);
+   group->priv->to_write = NULL;
+
+   adapter = gom_repository_get_adapter(group->priv->repository);
+   gom_adapter_queue_write(adapter, gom_resource_group_delete_cb, simple);
+   g_async_queue_pop(queue);
+   g_async_queue_unref(queue);
+
+   if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
+      g_simple_async_result_propagate_error(simple, error);
+   }
+   g_object_unref(simple);
+
+   return ret;
+}
+
+void
+gom_resource_group_delete_async (GomResourceGroup    *group,
+                                 GAsyncReadyCallback  callback,
+                                 gpointer             user_data)
+{
+   GomResourceGroupPrivate *priv;
+   GSimpleAsyncResult *simple;
+   GomAdapter *adapter;
+
+   g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
+   g_return_if_fail(callback != NULL);
+   g_return_if_fail(group->priv->is_writable);
+
+   priv = group->priv;
+
+   simple = g_simple_async_result_new(G_OBJECT(group), callback, user_data,
+                                      gom_resource_group_delete_async);
+   if (!group->priv->to_write) {
+      g_simple_async_result_set_op_res_gboolean(simple, TRUE);
+      g_simple_async_result_complete_in_idle(simple);
+      return;
+   }
+
+   g_object_set_data_full(G_OBJECT(simple), "items", group->priv->to_write, (GDestroyNotify)g_ptr_array_unref);
+   group->priv->to_write = NULL;
+
+   adapter = gom_repository_get_adapter(priv->repository);
+   gom_adapter_queue_read(adapter, gom_resource_group_delete_cb, simple);
+}
+
+gboolean
+gom_resource_group_delete_finish (GomResourceGroup  *group,
+                                  GAsyncResult      *result,
+                                  GError           **error)
+{
+   GSimpleAsyncResult *simple = (GSimpleAsyncResult *)result;
+   gboolean ret;
+
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple), FALSE);
+   g_return_val_if_fail(group->priv->is_writable, FALSE);
+
+   if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
+      g_simple_async_result_propagate_error(simple, error);
+   }
+   g_object_unref(simple);
+
+   return ret;
+}
+
+static GomFilter *
 gom_resource_group_get_filter (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
@@ -96,10 +441,31 @@ gom_resource_group_set_filter (GomResourceGroup *group,
    }
 }
 
+static GomSorting *
+gom_resource_group_get_sorting (GomResourceGroup *group)
+{
+   g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
+   return group->priv->sorting;
+}
+
+static void
+gom_resource_group_set_sorting (GomResourceGroup *group,
+                                GomSorting       *sorting)
+{
+   g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
+   g_return_if_fail(!sorting || GOM_IS_SORTING(sorting));
+
+   if (sorting) {
+      group->priv->sorting = g_object_ref(sorting);
+      g_object_notify_by_pspec(G_OBJECT(group), gParamSpecs[PROP_SORTING]);
+   }
+}
+
 guint
 gom_resource_group_get_count (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), 0);
+   g_return_val_if_fail(!group->priv->is_writable, 0);
    return group->priv->count;
 }
 
@@ -117,6 +483,7 @@ const gchar *
 gom_resource_group_get_m2m_table (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
+   g_return_val_if_fail(!group->priv->is_writable, NULL);
    return group->priv->m2m_table;
 }
 
@@ -131,10 +498,11 @@ gom_resource_group_set_m2m_table (GomResourceGroup *group,
    g_object_notify_by_pspec(G_OBJECT(group), gParamSpecs[PROP_M2M_TABLE]);
 }
 
-GType
+static GType
 gom_resource_group_get_m2m_type (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), 0);
+   g_return_val_if_fail(!group->priv->is_writable, 0);
    return group->priv->m2m_type;
 }
 
@@ -147,7 +515,7 @@ gom_resource_group_set_m2m_type (GomResourceGroup *group,
    g_object_notify_by_pspec(G_OBJECT(group), gParamSpecs[PROP_M2M_TYPE]);
 }
 
-GomRepository *
+static GomRepository *
 gom_resource_group_get_repository (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
@@ -161,11 +529,12 @@ gom_resource_group_set_repository (GomResourceGroup *group,
    g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
    g_return_if_fail(GOM_IS_REPOSITORY(repository));
 
+   g_clear_object(&group->priv->repository);
    group->priv->repository = g_object_ref(repository);
    g_object_notify_by_pspec(G_OBJECT(group), gParamSpecs[PROP_REPOSITORY]);
 }
 
-GType
+static GType
 gom_resource_group_get_resource_type (GomResourceGroup *group)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), G_TYPE_INVALID);
@@ -184,21 +553,69 @@ gom_resource_group_set_resource_type (GomResourceGroup *group,
 }
 
 static void
-set_props (GomResource *resource,
-           GomCursor   *cursor)
+value_free (gpointer data)
+{
+   GValue *value = data;
+
+   if (value == NULL)
+      return;
+   g_value_unset(value);
+   g_free(value);
+}
+
+static void
+item_data_free (gpointer data)
+{
+   ItemData *itemdata = data;
+   if (itemdata == NULL)
+      return;
+   g_clear_object(&itemdata->resource);
+   g_clear_pointer(&itemdata->ht, g_hash_table_destroy);
+   g_free (itemdata);
+}
+
+static void
+foreach_prop (gpointer key,
+              gpointer value,
+              gpointer user_data)
+{
+   g_object_set_property(user_data, key, value);
+}
+
+static void
+item_data_ensure_resource (ItemData      *itemdata,
+                           GType          resource_type,
+                           GomRepository *repository)
+{
+   if (itemdata->resource)
+      return;
+
+   itemdata->resource = g_object_new(resource_type,
+                                     "repository", repository,
+                                     NULL);
+   g_hash_table_foreach(itemdata->ht, foreach_prop, itemdata->resource);
+   gom_resource_set_is_from_table(itemdata->resource, TRUE);
+   g_clear_pointer(&itemdata->ht, g_hash_table_destroy);
+}
+
+static ItemData *
+set_props (GType         resource_type,
+           GomCursor    *cursor)
 {
    GObjectClass *klass;
    const gchar *name;
    GParamSpec *pspec;
-   GValue value = { 0 };
    guint n_cols;
    guint i;
+   GHashTable *ht;
+   ItemData *itemdata;
 
-   g_assert(GOM_IS_RESOURCE(resource));
    g_assert(GOM_IS_CURSOR(cursor));
 
-   klass = G_OBJECT_GET_CLASS(resource);
+   klass = g_type_class_ref(resource_type);
    n_cols = gom_cursor_get_n_columns(cursor);
+   ht = g_hash_table_new_full (g_str_hash, g_str_equal,
+                               g_free, value_free);
 
    for (i = 0; i < n_cols; i++) {
       name = gom_cursor_get_column_name(cursor, i);
@@ -207,22 +624,32 @@ set_props (GomResource *resource,
 
          from_bytes = g_param_spec_get_qdata(pspec, GOM_RESOURCE_FROM_BYTES_FUNC);
          if (from_bytes) {
-            GValue converted = { 0, };
+            GValue *converted;
+            GValue value = { 0, };
 
+            converted = g_new0 (GValue, 1);
             g_value_init(&value, G_TYPE_BYTES);
             gom_cursor_get_column(cursor, i, &value);
-            (*from_bytes) (g_value_get_boxed(&value), &converted);
+            (*from_bytes) (g_value_get_boxed(&value), converted);
             g_value_unset(&value);
-            g_object_set_property(G_OBJECT(resource), name, &converted);
-            g_value_unset(&converted);
+            g_hash_table_insert(ht, g_strdup(name), converted);
          } else {
-            g_value_init(&value, pspec->value_type);
-            gom_cursor_get_column(cursor, i, &value);
-            g_object_set_property(G_OBJECT(resource), name, &value);
-            g_value_unset(&value);
+            GValue *value;
+
+            value = g_new0 (GValue, 1);
+            g_value_init(value, pspec->value_type);
+            gom_cursor_get_column(cursor, i, value);
+            g_hash_table_insert(ht, g_strdup(name), value);
          }
       }
    }
+
+   g_type_class_unref (klass);
+
+   itemdata = g_new0(ItemData, 1);
+   itemdata->ht = ht;
+
+   return itemdata;
 }
 
 static void
@@ -233,10 +660,10 @@ gom_resource_group_fetch_cb (GomAdapter *adapter,
    GomCommandBuilder *builder = NULL;
    GomResourceGroup *group;
    GomRepository *repository = NULL;
-   GomResource *resource;
    GomCommand *command = NULL;
    GomCursor *cursor = NULL;
    GomFilter *filter = NULL;
+   GomSorting *sorting = NULL;
    GError *error = NULL;
    GType resource_type;
    gchar *m2m_table = NULL;
@@ -251,8 +678,8 @@ gom_resource_group_fetch_cb (GomAdapter *adapter,
 
    group = GOM_RESOURCE_GROUP(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
    g_object_get(group,
-                "adapter", &adapter,
                 "filter", &filter,
+                "sorting", &sorting,
                 "m2m-table", &m2m_table,
                 "m2m-type", &m2m_type,
                 "repository", &repository,
@@ -260,6 +687,7 @@ gom_resource_group_fetch_cb (GomAdapter *adapter,
                 NULL);
    g_assert(GOM_IS_ADAPTER(adapter));
    g_assert(!filter || GOM_IS_FILTER(filter));
+   g_assert(!sorting || GOM_IS_SORTING(sorting));
    g_assert(GOM_IS_REPOSITORY(repository));
    g_assert(g_type_is_a(resource_type, GOM_TYPE_RESOURCE));
 
@@ -268,8 +696,9 @@ gom_resource_group_fetch_cb (GomAdapter *adapter,
    queue = g_object_get_data(G_OBJECT(simple), "queue");
 
    builder = g_object_new(GOM_TYPE_COMMAND_BUILDER,
-                          "adapter", adapter,
+                          "adapter", gom_repository_get_adapter(repository),
                           "filter", filter,
+                          "sorting", sorting,
                           "limit", limit,
                           "m2m-table", m2m_table,
                           "m2m-type", m2m_type,
@@ -292,31 +721,30 @@ gom_resource_group_fetch_cb (GomAdapter *adapter,
 
    if (!group->priv->items) {
       group->priv->items = g_hash_table_new_full(g_int_hash, g_int_equal,
-                                                 g_free, g_object_unref);
+                                                 g_free, item_data_free);
    }
 
    idx = offset;
 
    while (gom_cursor_next(cursor)) {
-      guint *key = g_new0(guint, 1);
+      ItemData *itemdata;
+      guint *key;
+
+      key = g_new0(guint, 1);
       *key = idx++;
-      resource = g_object_new(resource_type,
-                              "repository", repository,
-                              NULL);
-      set_props(resource, cursor);
-      gom_resource_set_is_from_table(resource, TRUE);
-      g_hash_table_insert(group->priv->items, key, resource);
+      itemdata = set_props(resource_type, cursor);
+      g_hash_table_insert(group->priv->items, key, itemdata);
    }
 
    g_simple_async_result_set_op_res_gboolean(simple, TRUE);
 
 out:
    g_object_unref(group);
-   g_clear_object(&adapter);
    g_clear_object(&builder);
    g_clear_object(&command);
    g_clear_object(&cursor);
    g_clear_object(&filter);
+   g_clear_object(&sorting);
    g_clear_object(&repository);
    if (!queue)
       g_simple_async_result_complete_in_idle(simple);
@@ -346,8 +774,10 @@ gom_resource_group_fetch_sync (GomResourceGroup  *group,
    GSimpleAsyncResult *simple;
    gboolean ret;
    GAsyncQueue *queue;
+   GomAdapter *adapter;
 
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
+   g_return_val_if_fail(!group->priv->is_writable, FALSE);
 
    queue = g_async_queue_new();
 
@@ -357,7 +787,8 @@ gom_resource_group_fetch_sync (GomResourceGroup  *group,
    g_object_set_data(G_OBJECT(simple), "limit", GINT_TO_POINTER(count));
    g_object_set_data(G_OBJECT(simple), "queue", queue);
 
-   gom_adapter_queue_read(group->priv->adapter, gom_resource_group_fetch_cb, simple);
+   adapter = gom_repository_get_adapter(group->priv->repository);
+   gom_adapter_queue_read(adapter, gom_resource_group_fetch_cb, simple);
    g_async_queue_pop(queue);
    g_async_queue_unref(queue);
 
@@ -378,9 +809,11 @@ gom_resource_group_fetch_async (GomResourceGroup    *group,
 {
    GomResourceGroupPrivate *priv;
    GSimpleAsyncResult *simple;
+   GomAdapter *adapter;
 
    g_return_if_fail(GOM_IS_RESOURCE_GROUP(group));
    g_return_if_fail(callback != NULL);
+   g_return_if_fail(!group->priv->is_writable);
 
    priv = group->priv;
 
@@ -389,7 +822,8 @@ gom_resource_group_fetch_async (GomResourceGroup    *group,
    g_object_set_data(G_OBJECT(simple), "offset", GINT_TO_POINTER(index_));
    g_object_set_data(G_OBJECT(simple), "limit", GINT_TO_POINTER(count));
 
-   gom_adapter_queue_read(priv->adapter, gom_resource_group_fetch_cb, simple);
+   adapter = gom_repository_get_adapter(priv->repository);
+   gom_adapter_queue_read(adapter, gom_resource_group_fetch_cb, simple);
 }
 
 gboolean
@@ -402,6 +836,7 @@ gom_resource_group_fetch_finish (GomResourceGroup  *group,
 
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), FALSE);
    g_return_val_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple), FALSE);
+   g_return_val_if_fail(!group->priv->is_writable, FALSE);
 
    if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
       g_simple_async_result_propagate_error(simple, error);
@@ -429,11 +864,16 @@ gom_resource_group_get_index (GomResourceGroup *group,
    GomResourceGroupPrivate *priv;
 
    g_return_val_if_fail(GOM_IS_RESOURCE_GROUP(group), NULL);
+   g_return_val_if_fail(!group->priv->is_writable, NULL);
 
    priv = group->priv;
 
    if (priv->items) {
-      return g_hash_table_lookup(priv->items, &index_);
+      ItemData *itemdata;
+
+      itemdata = g_hash_table_lookup(priv->items, &index_);
+      item_data_ensure_resource(itemdata, priv->resource_type, priv->repository);
+      return itemdata->resource;
    }
 
    return NULL;
@@ -452,9 +892,10 @@ gom_resource_group_finalize (GObject *object)
    GomResourceGroupPrivate *priv = GOM_RESOURCE_GROUP(object)->priv;
 
    g_clear_object(&priv->repository);
-   g_clear_object(&priv->adapter);
    g_clear_object(&priv->filter);
+   g_clear_object(&priv->sorting);
    g_clear_pointer(&priv->items, g_hash_table_unref);
+   g_clear_pointer(&priv->to_write, g_ptr_array_unref);
 
    G_OBJECT_CLASS(gom_resource_group_parent_class)->finalize(object);
 }
@@ -477,14 +918,14 @@ gom_resource_group_get_property (GObject    *object,
    GomResourceGroup *group = GOM_RESOURCE_GROUP(object);
 
    switch (prop_id) {
-   case PROP_ADAPTER:
-      g_value_set_object(value, gom_resource_group_get_adapter(group));
-      break;
    case PROP_COUNT:
       g_value_set_uint(value, gom_resource_group_get_count(group));
       break;
    case PROP_FILTER:
       g_value_set_object(value, gom_resource_group_get_filter(group));
+      break;
+   case PROP_SORTING:
+      g_value_set_object(value, gom_resource_group_get_sorting(group));
       break;
    case PROP_M2M_TABLE:
       g_value_set_string(value, gom_resource_group_get_m2m_table(group));
@@ -497,6 +938,9 @@ gom_resource_group_get_property (GObject    *object,
       break;
    case PROP_RESOURCE_TYPE:
       g_value_set_gtype(value, gom_resource_group_get_resource_type(group));
+      break;
+   case PROP_IS_WRITABLE:
+      g_value_set_boolean(value, group->priv->is_writable);
       break;
    default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -521,14 +965,14 @@ gom_resource_group_set_property (GObject      *object,
    GomResourceGroup *group = GOM_RESOURCE_GROUP(object);
 
    switch (prop_id) {
-   case PROP_ADAPTER:
-      gom_resource_group_set_adapter(group, g_value_get_object(value));
-      break;
    case PROP_COUNT:
       gom_resource_group_set_count(group, g_value_get_uint(value));
       break;
    case PROP_FILTER:
       gom_resource_group_set_filter(group, g_value_get_object(value));
+      break;
+   case PROP_SORTING:
+      gom_resource_group_set_sorting(group, g_value_get_object(value));
       break;
    case PROP_M2M_TABLE:
       gom_resource_group_set_m2m_table(group, g_value_get_string(value));
@@ -541,6 +985,9 @@ gom_resource_group_set_property (GObject      *object,
       break;
    case PROP_REPOSITORY:
       gom_resource_group_set_repository(group, g_value_get_object(value));
+      break;
+   case PROP_IS_WRITABLE:
+      group->priv->is_writable = g_value_get_boolean(value);
       break;
    default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -575,15 +1022,6 @@ gom_resource_group_class_init (GomResourceGroupClass *klass)
    g_object_class_install_property(object_class, PROP_COUNT,
                                    gParamSpecs[PROP_COUNT]);
 
-   gParamSpecs[PROP_ADAPTER] =
-      g_param_spec_object("adapter",
-                          _("Adapter"),
-                          _("The adapter used for queries."),
-                          GOM_TYPE_ADAPTER,
-                          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
-   g_object_class_install_property(object_class, PROP_ADAPTER,
-                                   gParamSpecs[PROP_ADAPTER]);
-
    gParamSpecs[PROP_FILTER] =
       g_param_spec_object("filter",
                           _("Filter"),
@@ -592,6 +1030,15 @@ gom_resource_group_class_init (GomResourceGroupClass *klass)
                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
    g_object_class_install_property(object_class, PROP_FILTER,
                                    gParamSpecs[PROP_FILTER]);
+
+   gParamSpecs[PROP_SORTING] =
+      g_param_spec_object("sorting",
+                          _("Sorting"),
+                          _("The query sorting."),
+                          GOM_TYPE_SORTING,
+                          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+   g_object_class_install_property(object_class, PROP_SORTING,
+                                   gParamSpecs[PROP_SORTING]);
 
    gParamSpecs[PROP_M2M_TABLE] =
       g_param_spec_string("m2m-table",
@@ -628,6 +1075,15 @@ gom_resource_group_class_init (GomResourceGroupClass *klass)
                          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
    g_object_class_install_property(object_class, PROP_RESOURCE_TYPE,
                                    gParamSpecs[PROP_RESOURCE_TYPE]);
+
+   gParamSpecs[PROP_IS_WRITABLE] =
+      g_param_spec_boolean("is-writable",
+                           _("Is Writable"),
+                           _("Whether the group contains resources to be written."),
+                           FALSE,
+                           G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+   g_object_class_install_property(object_class, PROP_IS_WRITABLE,
+                                   gParamSpecs[PROP_IS_WRITABLE]);
 }
 
 /**

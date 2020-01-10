@@ -43,7 +43,6 @@ enum
 };
 
 static GParamSpec *gParamSpecs[LAST_PROP];
-static GHashTable *gPropMaps;
 
 void
 gom_resource_class_set_primary_key (GomResourceClass *resource_class,
@@ -58,20 +57,23 @@ gom_resource_class_set_primary_key (GomResourceClass *resource_class,
 
    pspec = g_object_class_find_property(G_OBJECT_CLASS(resource_class), primary_key);
    if (!pspec) {
-      g_warning("Property for primary key '%s' isn't declared yet. Are you running gom_resource_class_set_primary_key() too early?",
-                primary_key);
+      g_warning("Property for primary key '%s' (class %s) isn't declared yet. Are you running gom_resource_class_set_primary_key() too early?",
+                primary_key, G_OBJECT_CLASS_NAME(resource_class));
       return;
    }
 
    if (pspec->flags & G_PARAM_CONSTRUCT_ONLY) {
-      g_warning("Property for primary key '%s' is declared as construct-only. This will not work as expected.", primary_key);
+      g_warning("Property for primary key '%s' (class %s) is declared as construct-only. This will not work as expected.",
+                primary_key, G_OBJECT_CLASS_NAME(resource_class));
       return;
    }
 
    /* Same check as in has_primary_key() */
    value = g_param_spec_get_default_value (pspec);
-   if (value->data[0].v_pointer) {
-      g_warning("Property for primary key '%s' has a non-NULL/non-zero default value. This will not work as expected.", primary_key);
+   if (value->data[0].v_pointer &&
+       *((char *) value->data[0].v_pointer) != '\0') {
+      g_warning("Property for primary key '%s' (class %s) has a non-NULL/non-zero default value. This will not work as expected.",
+                primary_key, G_OBJECT_CLASS_NAME(resource_class));
       return;
    }
 
@@ -251,7 +253,7 @@ gom_resource_class_set_notnull (GomResourceClass *resource_class,
                                GUINT_TO_POINTER (TRUE), NULL);
 }
 
-GomRepository *
+static GomRepository *
 gom_resource_get_repository (GomResource *resource)
 {
    g_return_val_if_fail(GOM_IS_RESOURCE(resource), NULL);
@@ -270,22 +272,23 @@ gom_resource_set_repository (GomResource   *resource,
 
    priv = resource->priv;
 
-   if ((old = priv->repository)) {
+   old = priv->repository;
+   if (old) {
+      g_object_remove_weak_pointer(G_OBJECT(priv->repository),
+                                   (gpointer *)&priv->repository);
       priv->repository = NULL;
-      g_object_remove_weak_pointer(G_OBJECT(old),
-                                   (gpointer  *)&priv->repository);
    }
 
    if (repository) {
       priv->repository = repository;
       g_object_add_weak_pointer(G_OBJECT(priv->repository),
-                                (gpointer  *)&priv->repository);
+                                (gpointer *)&priv->repository);
       g_object_notify_by_pspec(G_OBJECT(resource),
                                gParamSpecs[PROP_REPOSITORY]);
    }
 }
 
-static gboolean
+gboolean
 gom_resource_do_delete (GomResource  *resource,
                         GomAdapter   *adapter,
                         GError      **error)
@@ -529,7 +532,8 @@ has_primary_key (GomResource *resource)
 
    pspec = g_object_class_find_property(G_OBJECT_CLASS(klass),
                                         klass->primary_key);
-   g_assert(pspec);
+   if (!pspec)
+      return FALSE;
 
    g_value_init(&value, pspec->value_type);
    g_object_get_property(G_OBJECT(resource), klass->primary_key, &value);
@@ -539,22 +543,48 @@ has_primary_key (GomResource *resource)
    return ret;
 }
 
-static gboolean
-gom_resource_do_save (GomResource  *resource,
-                      GomAdapter   *adapter,
-                      GError      **error)
+void
+gom_resource_set_post_save_properties (GomResource *resource)
+{
+   GValue *value;
+
+   gom_resource_set_is_from_table(resource,
+                                  GPOINTER_TO_INT(g_object_get_data(G_OBJECT(resource), "is-from-table")));
+   g_object_set_data (G_OBJECT(resource), "is-from-table", NULL);
+
+   value = g_object_get_data(G_OBJECT(resource), "row-id");
+   if (!value)
+      return;
+   set_pkey(resource, value);
+   g_object_set_data(G_OBJECT(resource), "row-id", NULL);
+}
+
+static void
+free_save_cmds (gpointer data)
+{
+   GList *cmds = data;
+
+   g_list_free_full (cmds, g_object_unref);
+}
+
+static void
+value_free (gpointer data)
+{
+   GValue *value = data;
+   g_value_unset (value);
+   g_free (value);
+}
+
+void
+gom_resource_build_save_cmd (GomResource *resource,
+                             GomAdapter  *adapter)
 {
    GomCommandBuilder *builder;
-   gboolean ret = FALSE;
-   gboolean is_insert;
-   gint64 row_id = -1;
+   gboolean has_pkey, is_insert;
    GSList *types = NULL;
    GSList *iter;
    GType resource_type;
-   gboolean has_pkey;
-
-   g_return_val_if_fail(GOM_IS_RESOURCE(resource), FALSE);
-   g_return_val_if_fail(GOM_IS_ADAPTER(adapter), FALSE);
+   GList *cmds = NULL;
 
    resource_type = G_TYPE_FROM_INSTANCE(resource);
    g_assert(g_type_is_a(resource_type, GOM_TYPE_RESOURCE));
@@ -572,6 +602,8 @@ gom_resource_do_save (GomResource  *resource,
      is_insert = TRUE;
    }
 
+   g_object_set_data (G_OBJECT (resource), "is-insert", GINT_TO_POINTER (is_insert));
+
    do {
       types = g_slist_prepend(types, GINT_TO_POINTER(resource_type));
    } while ((resource_type = g_type_parent(resource_type)) != GOM_TYPE_RESOURCE);
@@ -579,7 +611,7 @@ gom_resource_do_save (GomResource  *resource,
    for (iter = types; iter; iter = iter->next) {
       GomCommand *command;
 
-      resource_type = GPOINTER_TO_INT(iter->data);
+      resource_type = (GType) iter->data;
 
       g_object_set(builder,
                    "resource-type", resource_type,
@@ -591,31 +623,66 @@ gom_resource_do_save (GomResource  *resource,
          command = gom_command_builder_build_update(builder, resource);
       }
 
-      if (!gom_command_execute(command, NULL, error)) {
-         g_object_unref(command);
+      if (is_insert && gom_resource_has_dynamic_pkey(resource_type))
+        is_insert = FALSE;
+
+      cmds = g_list_prepend (cmds, command);
+   }
+
+   cmds = g_list_reverse (cmds);
+   g_object_set_data_full (G_OBJECT(resource), "save-commands", cmds, free_save_cmds);
+
+   g_slist_free(types);
+   g_object_unref (builder);
+}
+
+gboolean
+gom_resource_do_save (GomResource  *resource,
+                      GomAdapter   *adapter,
+                      GError      **error)
+{
+   gboolean ret = FALSE;
+   gboolean is_insert;
+   gint64 row_id = -1;
+   GType resource_type;
+   GList *cmds, *l;
+
+   g_return_val_if_fail(GOM_IS_RESOURCE(resource), FALSE);
+   g_return_val_if_fail(GOM_IS_ADAPTER(adapter), FALSE);
+
+   resource_type = G_TYPE_FROM_INSTANCE(resource);
+   g_assert(g_type_is_a(resource_type, GOM_TYPE_RESOURCE));
+
+   is_insert = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(resource), "is-insert"));
+   cmds = g_object_get_data(G_OBJECT(resource), "save-commands");
+
+   for (l = cmds; l != NULL; l = l->next) {
+      GomCommand *command = l->data;
+
+      if (!gom_command_execute(command, NULL, error))
          goto out;
-      }
 
       if (is_insert && row_id == -1 && gom_resource_has_dynamic_pkey(resource_type)) {
          sqlite3 *handle = gom_adapter_get_handle(adapter);
-         GValue value = { 0 };
+         GValue *value;
 
          row_id = sqlite3_last_insert_rowid(handle);
-         g_value_init(&value, G_TYPE_INT64);
-         g_value_set_int64(&value, row_id);
-         set_pkey(resource, &value);
-         gom_resource_set_is_from_table(resource, TRUE);
-         g_value_unset(&value);
-      }
+         value = g_new0 (GValue, 1);
+         g_value_init(value, G_TYPE_INT64);
+         g_value_set_int64(value, row_id);
+         g_object_set_data_full(G_OBJECT(resource), "row-id", value, value_free);
 
-      g_object_unref(command);
+         g_object_set_data (G_OBJECT(resource), "is-from-table", GINT_TO_POINTER(TRUE));
+
+         is_insert = FALSE;
+      }
    }
 
    ret = TRUE;
 
 out:
-   g_slist_free(types);
-   g_object_unref(builder);
+   g_object_set_data (G_OBJECT (resource), "save-commands", NULL);
+   g_object_set_data (G_OBJECT (resource), "is-insert", NULL);
 
    return ret;
 }
@@ -640,6 +707,8 @@ gom_resource_save_cb (GomAdapter *adapter,
 
    if (!(ret = gom_resource_do_save(resource, adapter, &error))) {
       g_simple_async_result_take_error(simple, error);
+   } else {
+     g_object_set_data(G_OBJECT(resource), "is-from-table", GINT_TO_POINTER(TRUE));
    }
 
    g_simple_async_result_set_op_res_gboolean(simple, ret);
@@ -685,6 +754,8 @@ gom_resource_save_sync (GomResource  *resource,
    g_object_set_data(G_OBJECT(simple), "queue", queue);
    g_assert(GOM_IS_ADAPTER(adapter));
 
+   gom_resource_build_save_cmd(resource, adapter);
+
    gom_adapter_queue_write(adapter, gom_resource_save_cb, simple);
    g_async_queue_pop(queue);
    g_async_queue_unref(queue);
@@ -692,6 +763,10 @@ gom_resource_save_sync (GomResource  *resource,
    if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
       g_simple_async_result_propagate_error(simple, error);
    }
+
+   if (ret)
+      gom_resource_set_post_save_properties(resource);
+
    g_object_unref(simple);
 
    return ret;
@@ -720,6 +795,7 @@ gom_resource_save_async (GomResource         *resource,
                                       gom_resource_save_async);
    adapter = gom_repository_get_adapter(priv->repository);
    g_assert(GOM_IS_ADAPTER(adapter));
+   gom_resource_build_save_cmd(resource, adapter);
    gom_adapter_queue_write(adapter, gom_resource_save_cb, simple);
 }
 
@@ -737,6 +813,10 @@ gom_resource_save_finish (GomResource   *resource,
    if (!(ret = g_simple_async_result_get_op_res_gboolean(simple))) {
       g_simple_async_result_propagate_error(simple, error);
    }
+
+   if (ret)
+      gom_resource_set_post_save_properties(resource);
+
    g_object_unref(simple);
 
    return ret;
@@ -763,8 +843,7 @@ gom_resource_fetch_m2m_cb (GomAdapter *adapter,
    g_return_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple));
 
    m2m_table = g_object_get_data(G_OBJECT(simple), "m2m-table");
-   resource_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(simple),
-                                                     "resource-type"));
+   resource_type = (GType) g_object_get_data(G_OBJECT(simple), "resource-type");
    filter = g_object_get_data(G_OBJECT(simple), "filter");
    resource = GOM_RESOURCE(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
    repository = gom_resource_get_repository(resource);
@@ -799,7 +878,6 @@ gom_resource_fetch_m2m_cb (GomAdapter *adapter,
 
    count = gom_cursor_get_column_int64(cursor, 0);
    group = g_object_new(GOM_TYPE_RESOURCE_GROUP,
-                        "adapter", adapter,
                         "count", count,
                         "filter", filter,
                         "m2m-table", m2m_table,
@@ -971,9 +1049,6 @@ gom_resource_class_init (GomResourceClass *klass)
    object_class->get_property = gom_resource_get_property;
    object_class->set_property = gom_resource_set_property;
    g_type_class_add_private(object_class, sizeof(GomResourcePrivate));
-
-   gPropMaps = g_hash_table_new_full(g_direct_hash, g_direct_equal, NULL,
-                                     (GDestroyNotify)g_hash_table_destroy);
 
    gParamSpecs[PROP_REPOSITORY] =
       g_param_spec_object("repository",

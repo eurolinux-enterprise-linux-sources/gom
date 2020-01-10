@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Gom Reference Manual: GomRepository</title>
+<title>GomRepository: Gom Reference Manual</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="Gom Reference Manual">
 <link rel="up" href="ch01.html" title="Gom API Reference">
 <link rel="prev" href="GomFilter.html" title="GomFilter">
 <link rel="next" href="GomResource.html" title="GomResource">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -49,7 +49,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <span class="c_punctuation">(</span><a class="link" href="GomRepository.html#GomRepositoryMigrator" title="GomRepositoryMigrator ()">*GomRepositoryMigrator</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
@@ -73,7 +73,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomRepository.html#gom-repository-migrate-sync" title="gom_repository_migrate_sync ()">gom_repository_migrate_sync</a> <span class="c_punctuation">()</span>
@@ -89,7 +89,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomRepository.html#gom-repository-migrate-finish" title="gom_repository_migrate_finish ()">gom_repository_migrate_finish</a> <span class="c_punctuation">()</span>
@@ -97,7 +97,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomRepository.html#gom-repository-automatic-migrate-sync" title="gom_repository_automatic_migrate_sync ()">gom_repository_automatic_migrate_sync</a> <span class="c_punctuation">()</span>
@@ -113,7 +113,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="GomRepository.html#gom-repository-automatic-migrate-finish" title="gom_repository_automatic_migrate_finish ()">gom_repository_automatic_migrate_finish</a> <span class="c_punctuation">()</span>
@@ -145,10 +145,34 @@
 </tr>
 <tr>
 <td class="function_type">
+<a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="GomRepository.html#gom-repository-find-sync" title="gom_repository_find_sync ()">gom_repository_find_sync</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="GomRepository.html#gom-repository-find-sorted-sync" title="gom_repository_find_sorted_sync ()">gom_repository_find_sorted_sync</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
 <a class="link" href="GomRepository.html#gom-repository-find-async" title="gom_repository_find_async ()">gom_repository_find_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomRepository.html#gom-repository-find-sorted-async" title="gom_repository_find_sorted_async ()">gom_repository_find_sorted_async</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -180,14 +204,12 @@
 </div>
 <div class="refsect1">
 <a name="GomRepository.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+<pre class="screen">    <a href="https://developer.gnome.org/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> GomRepository
 </pre>
 </div>
 <div class="refsect1">
 <a name="GomRepository.description"></a><h2>Description</h2>
-<p>
-</p>
 </div>
 <div class="refsect1">
 <a name="GomRepository.functions_details"></a><h2>Functions</h2>
@@ -195,24 +217,16 @@
 <a name="GOM-REPOSITORY-CONST:CAPS"></a><h3>GOM_REPOSITORY_CONST()</h3>
 <pre class="programlisting">#define GOM_REPOSITORY_CONST(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOM_TYPE_REPOSITORY, GomRepository const))
 </pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="GomRepositoryMigrator"></a><h3>GomRepositoryMigrator ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 <span class="c_punctuation">(</span>*GomRepositoryMigrator<span class="c_punctuation">)</span> (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
                           <em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
-                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.7.7.3.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
@@ -246,22 +260,16 @@ gom_repository_get_adapter (<em class="parameter"><code><a class="link" href="Go
 <a name="gom-repository-new"></a><h3>gom_repository_new ()</h3>
 <pre class="programlisting"><a class="link" href="GomRepository.html" title="GomRepository"><span class="returnvalue">GomRepository</span></a> *
 gom_repository_new (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.7.7.5.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-repository-migrate-sync"></a><h3>gom_repository_migrate_sync ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_repository_migrate_sync (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
                              <em class="parameter"><code><a class="link" href="GomRepository.html#GomRepositoryMigrator" title="GomRepositoryMigrator ()"><span class="type">GomRepositoryMigrator</span></a> migrator</code></em>,
-                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> migrator_data</code></em>,
-                             <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> migrator_data</code></em>,
+                             <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Performs a migration on the underlying database. This will
 call <em class="parameter"><code>migrator</code></em>
  from the SQLite thread for each migration to perform.</p>
@@ -297,7 +305,7 @@ call <em class="parameter"><code>migrator</code></em>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -305,8 +313,7 @@ call <em class="parameter"><code>migrator</code></em>
 </div>
 <div class="refsect3">
 <a name="id-1.2.7.7.6.6"></a><h4>Returns</h4>
-<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> in case of success.</p>
-<p></p>
+<p> <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> in case of success.</p>
 </div>
 </div>
 <hr>
@@ -314,11 +321,11 @@ call <em class="parameter"><code>migrator</code></em>
 <a name="gom-repository-migrate-async"></a><h3>gom_repository_migrate_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_repository_migrate_async (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
                               <em class="parameter"><code><a class="link" href="GomRepository.html#GomRepositoryMigrator" title="GomRepositoryMigrator ()"><span class="type">GomRepositoryMigrator</span></a> migrator</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> migrator_data</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+                              <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> migrator_data</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Asynchronously performs a migration on the underlying database. This will
 call <em class="parameter"><code>migrator</code></em>
  from the SQLite thread for each migration to perform.</p>
@@ -373,27 +380,21 @@ call <em class="parameter"><code>migrator</code></em>
 <hr>
 <div class="refsect2">
 <a name="gom-repository-migrate-finish"></a><h3>gom_repository_migrate_finish ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_repository_migrate_finish (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.7.7.8.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+                               <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-repository-automatic-migrate-sync"></a><h3>gom_repository_automatic_migrate_sync ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_repository_automatic_migrate_sync (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
-                                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *object_types</code></em>,
-                                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
+                                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *object_types</code></em>,
+                                       <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Performs an automatic migration on the underlying database. For
-each of the <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> passed in <em class="parameter"><code>object_types</code></em>
+each of the <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> passed in <em class="parameter"><code>object_types</code></em>
 , the table will be
 created if necessary, and each of the columns corresponding to
 properties will be added if needed.</p>
@@ -418,12 +419,12 @@ properties will be added if needed.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>object_types</p></td>
-<td class="parameter_description"><p> a <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a>. </p></td>
+<td class="parameter_description"><p> a <a href="https://developer.gnome.org/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> GType][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a></p></td>
+<td class="parameter_description"><p>a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -431,8 +432,7 @@ properties will be added if needed.</p>
 </div>
 <div class="refsect3">
 <a name="id-1.2.7.7.9.6"></a><h4>Returns</h4>
-<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> in case of success.</p>
-<p></p>
+<p> <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> in case of success.</p>
 </div>
 </div>
 <hr>
@@ -441,10 +441,10 @@ properties will be added if needed.</p>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_repository_automatic_migrate_async
                                (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *object_types</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#guint"><span class="type">guint</span></a> version</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> *object_types</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 <p>Performs an automatic migration on the underlying database. See
 <a class="link" href="GomRepository.html#gom-repository-automatic-migrate-sync" title="gom_repository_automatic_migrate_sync ()"><code class="function">gom_repository_automatic_migrate_sync()</code></a> for details.</p>
 <p>Upon completion, <em class="parameter"><code>callback</code></em>
@@ -471,7 +471,7 @@ gom_repository_automatic_migrate_async
 </tr>
 <tr>
 <td class="parameter_name"><p>object_types</p></td>
-<td class="parameter_description"><p> a <a href="http://library.gnome.org/devel/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a>. </p></td>
+<td class="parameter_description"><p> a <a href="https://developer.gnome.org/glib/unstable/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> GType][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></td>
 </tr>
 <tr>
@@ -492,26 +492,20 @@ gom_repository_automatic_migrate_async
 <hr>
 <div class="refsect2">
 <a name="gom-repository-automatic-migrate-finish"></a><h3>gom_repository_automatic_migrate_finish ()</h3>
-<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 gom_repository_automatic_migrate_finish
                                (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.7.7.11.5"></a><h4>Returns</h4>
-<p></p>
-</div>
+                                <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-repository-find-one-sync"></a><h3>gom_repository_find_one_sync ()</h3>
 <pre class="programlisting"><a class="link" href="GomResource.html" title="GomResource"><span class="returnvalue">GomResource</span></a> *
 gom_repository_find_one_sync (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                              <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
                               <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
-                              <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                              <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Synchronous version of <a class="link" href="GomRepository.html#gom-repository-find-async" title="gom_repository_find_async ()"><code class="function">gom_repository_find_async()</code></a>.</p>
 <div class="refsect3">
 <a name="id-1.2.7.7.12.5"></a><h4>Parameters</h4>
@@ -529,17 +523,17 @@ gom_repository_find_one_sync (<em class="parameter"><code><a class="link" href="
 </tr>
 <tr>
 <td class="parameter_name"><p>resource_type</p></td>
-<td class="parameter_description"><p> A <a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of the resource to lookup. </p></td>
+<td class="parameter_description"><p> A <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of the resource to lookup. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>filter</p></td>
 <td class="parameter_description"><p> A <a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> to apply to your search. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -547,7 +541,7 @@ gom_repository_find_one_sync (<em class="parameter"><code><a class="link" href="
 </div>
 <div class="refsect3">
 <a name="id-1.2.7.7.12.6"></a><h4>Returns</h4>
-<p> A <a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
+<p> A <a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -556,20 +550,18 @@ gom_repository_find_one_sync (<em class="parameter"><code><a class="link" href="
 <a name="gom-repository-find-one-async"></a><h3>gom_repository_find_one_async ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 gom_repository_find_one_async (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
                                <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                               <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+                               <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                               <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="gom-repository-find-one-finish"></a><h3>gom_repository_find_one_finish ()</h3>
 <pre class="programlisting"><a class="link" href="GomResource.html" title="GomResource"><span class="returnvalue">GomResource</span></a> *
 gom_repository_find_one_finish (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                                <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                                <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                                <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
 <p>Completes an asynchronous request to find a single resource in the
 repository. See <a class="link" href="GomRepository.html#gom-repository-find-one-async" title="gom_repository_find_one_async ()"><code class="function">gom_repository_find_one_async()</code></a> for more info.</p>
 <div class="refsect3">
@@ -588,12 +580,12 @@ repository. See <a class="link" href="GomRepository.html#gom-repository-find-one
 </tr>
 <tr>
 <td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p> A <a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
+<td class="parameter_description"><p> A <a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -601,30 +593,71 @@ repository. See <a class="link" href="GomRepository.html#gom-repository-find-one
 </div>
 <div class="refsect3">
 <a name="id-1.2.7.7.14.6"></a><h4>Returns</h4>
-<p> A <a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> if successful, otherwise <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
+<p> A <a class="link" href="GomResource.html" title="GomResource"><span class="type">GomResource</span></a> if successful, otherwise <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gom-repository-find-async"></a><h3>gom_repository_find_async ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-gom_repository_find_async (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
-                           <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
-                           <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
-<p>
-</p>
+<a name="gom-repository-find-sync"></a><h3>gom_repository_find_sync ()</h3>
+<pre class="programlisting"><a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
+gom_repository_find_sync (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                          <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
+                          <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Synchronously queries the <a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> for objects matching the
+requested query. This must only be run from a callback provided to
+<a class="link" href="GomAdapter.html#gom-adapter-queue-read" title="gom_adapter_queue_read ()"><code class="function">gom_adapter_queue_read()</code></a>.</p>
+<div class="refsect3">
+<a name="id-1.2.7.7.15.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>repository</p></td>
+<td class="parameter_description"><p> A <a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>resource_type</p></td>
+<td class="parameter_description"><p> The <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of the resources to query. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> An optional filter for the query. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.7.7.15.6"></a><h4>Returns</h4>
+<p> A <a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="type">GomResourceGroup</span></a> or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="gom-repository-find-finish"></a><h3>gom_repository_find_finish ()</h3>
+<a name="gom-repository-find-sorted-sync"></a><h3>gom_repository_find_sorted_sync ()</h3>
 <pre class="programlisting"><a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
-gom_repository_find_finish (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
-                            <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Completes an asynchronous request to fetch a group of resources.</p>
+gom_repository_find_sorted_sync (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
+                                 <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                                 <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
+                                 <em class="parameter"><code><a class="link" href="GomSorting.html" title="GomSorting"><span class="type">GomSorting</span></a> *sorting</code></em>,
+                                 <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Synchronously queries the <a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> for objects matching the
+requested query. This must only be run from a callback provided to
+<a class="link" href="GomAdapter.html#gom-adapter-queue-read" title="gom_adapter_queue_read ()"><code class="function">gom_adapter_queue_read()</code></a>.</p>
 <div class="refsect3">
 <a name="id-1.2.7.7.16.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
@@ -640,13 +673,24 @@ gom_repository_find_finish (<em class="parameter"><code><a class="link" href="Go
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
 </tr>
 <tr>
-<td class="parameter_name"><p>result</p></td>
-<td class="parameter_description"><p> A <a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
+<td class="parameter_name"><p>resource_type</p></td>
+<td class="parameter_description"><p> The <a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> of the resources to query. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
 </tr>
 <tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> An optional filter for the query. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sorting</p></td>
+<td class="parameter_description"><p> An optional <a class="link" href="GomSorting.html" title="GomSorting"><span class="type">GomSorting</span></a> to order the query
+results. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p> A location for a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
 <td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
 </tr>
 </tbody>
@@ -654,6 +698,68 @@ gom_repository_find_finish (<em class="parameter"><code><a class="link" href="Go
 </div>
 <div class="refsect3">
 <a name="id-1.2.7.7.16.6"></a><h4>Returns</h4>
+<p> A <a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="type">GomResourceGroup</span></a> or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-repository-find-async"></a><h3>gom_repository_find_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_repository_find_async (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                           <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                           <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-repository-find-sorted-async"></a><h3>gom_repository_find_sorted_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_repository_find_sorted_async (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
+                                  <em class="parameter"><code><a href="https://developer.gnome.org/gobject/unstable/gobject-Type-Information.html#GType"><span class="type">GType</span></a> resource_type</code></em>,
+                                  <em class="parameter"><code><a class="link" href="GomFilter.html" title="GomFilter"><span class="type">GomFilter</span></a> *filter</code></em>,
+                                  <em class="parameter"><code><a class="link" href="GomSorting.html" title="GomSorting"><span class="type">GomSorting</span></a> *sorting</code></em>,
+                                  <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                  <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-repository-find-finish"></a><h3>gom_repository_find_finish ()</h3>
+<pre class="programlisting"><a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="returnvalue">GomResourceGroup</span></a> *
+gom_repository_find_finish (<em class="parameter"><code><a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a> *repository</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                            <em class="parameter"><code><a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Completes an asynchronous request to fetch a group of resources.</p>
+<div class="refsect3">
+<a name="id-1.2.7.7.19.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>repository</p></td>
+<td class="parameter_description"><p> A <a class="link" href="GomRepository.html" title="GomRepository"><span class="type">GomRepository</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>result</p></td>
+<td class="parameter_description"><p> A <a href="https://developer.gnome.org/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p> A location for a <a href="https://developer.gnome.org/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a>, or <a href="https://developer.gnome.org/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for returning results. Default is transfer full."><span class="acronym">out</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.7.7.19.6"></a><h4>Returns</h4>
 <p> A <a class="link" href="GomResourceGroup.html" title="GomResourceGroup"><span class="type">GomResourceGroup</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -673,7 +779,6 @@ gom_repository_find_finish (<em class="parameter"><code><a class="link" href="Go
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.24</div>
 </body>
 </html>

@@ -24,6 +24,7 @@
 #include "gom-adapter.h"
 #include "gom-filter.h"
 #include "gom-resource-group.h"
+#include "gom-sorting.h"
 
 G_BEGIN_DECLS
 
@@ -106,11 +107,22 @@ GomResourceGroup *gom_repository_find_sync       (GomRepository          *reposi
                                                   GType                   resource_type,
                                                   GomFilter              *filter,
                                                   GError                **error);
+GomResourceGroup *gom_repository_find_sorted_sync (GomRepository          *repository,
+                                                   GType                   resource_type,
+                                                   GomFilter              *filter,
+                                                   GomSorting             *sorting,
+                                                   GError                **error);
 void              gom_repository_find_async      (GomRepository          *repository,
                                                   GType                   resource_type,
                                                   GomFilter              *filter,
                                                   GAsyncReadyCallback     callback,
                                                   gpointer                user_data);
+void              gom_repository_find_sorted_async (GomRepository          *repository,
+                                                    GType                   resource_type,
+                                                    GomFilter              *filter,
+                                                    GomSorting             *sorting,
+                                                    GAsyncReadyCallback     callback,
+                                                    gpointer                user_data);
 GomResourceGroup *gom_repository_find_finish     (GomRepository          *repository,
                                                   GAsyncResult           *result,
                                                   GError                **error);

@@ -1,11 +1,11 @@
 Name:           gom
-Version:        0.2.1
-Release:        3%{?dist}
+Version:        0.3.2
+Release:        1%{?dist}
 Summary:        GObject to SQLite object mapper library
 
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Projects/Gom
-Source0:        https://download.gnome.org/sources/gom/0.2/gom-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/gom/0.3/gom-%{version}.tar.xz
 
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  intltool
@@ -13,8 +13,6 @@ BuildRequires:  pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:  pkgconfig(gio-2.0)
 BuildRequires:  pkgconfig(gobject-2.0)
 BuildRequires:  pkgconfig(sqlite3)
-
-Patch0: 0001-gom-Fix-converting-pointer-to-GType.patch
 
 %description
 Gom provides an object mapper from GObjects to SQLite. It helps you write
@@ -31,7 +29,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure --disable-static
@@ -60,6 +57,10 @@ find $RPM_BUILD_ROOT -name '*.la' -delete
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Tue Dec 29 2015 Kalev Lember <klember@redhat.com> - 0.3.2-1
+- Update to 0.3.2
+- Resolves: #1386973
+
 * Fri Sep 11 2015 Bastien Nocera <bnocera@redhat.com> 0.2.1-3
 - Fix crasher during startup
 Resolves: #1261939

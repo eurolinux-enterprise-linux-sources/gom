@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdarg.h>
+
 #include <glib/gi18n.h>
 
 #include "gom-filter.h"
@@ -34,8 +36,7 @@ struct _GomFilterPrivate
    GParamSpec *pspec;
    GType type;
 
-   GomFilter *left;
-   GomFilter *right;
+   GQueue *subfilters;
 };
 
 enum
@@ -58,7 +59,10 @@ static const gchar *gOperators[] = {
    ">=",
    "<",
    "<=",
-   "LIKE"
+   "LIKE",
+   "GLOB",
+   "IS NULL",
+   "IS NOT NULL"
 };
 
 /**
@@ -71,14 +75,35 @@ static const gchar *gOperators[] = {
  * Returns: (transfer full): A new #GomFilter.
  */
 GomFilter *
-gom_filter_new_sql (const gchar *sql,
-                    GArray      *values)
+gom_filter_new_sql (const gchar  *sql,
+                    const GArray *values)
 {
-   GomFilter *filter = g_object_new(GOM_TYPE_FILTER,
-                                    "mode", GOM_FILTER_SQL,
-                                    "sql", sql,
-                                    NULL);
-   filter->priv->values = g_array_ref(values);
+   GomFilter *filter;
+
+   g_return_val_if_fail (sql != NULL, NULL);
+
+   filter = g_object_new (GOM_TYPE_FILTER,
+                          "mode", GOM_FILTER_SQL,
+                          "sql", sql,
+                          NULL);
+
+   if (values != NULL) {
+      guint i;
+
+      filter->priv->values = g_array_sized_new (FALSE, FALSE, sizeof(GValue), values->len);
+      g_array_set_clear_func (filter->priv->values, (GDestroyNotify)g_value_unset);
+
+      for (i = 0; i < values->len; i++) {
+         GValue copy = { 0 };
+         const GValue *src;
+
+         src = &g_array_index (values, GValue, i);
+         g_value_init (&copy, G_VALUE_TYPE (src));
+         g_value_copy (src, &copy);
+         g_array_append_val (filter->priv->values, copy);
+      }
+   }
+
    return filter;
 }
 
@@ -93,8 +118,10 @@ gom_filter_new_for_param (GType          resource_type,
    GomFilter *filter;
 
    g_return_val_if_fail(g_type_is_a(resource_type, GOM_TYPE_RESOURCE), NULL);
-   g_return_val_if_fail(value != NULL, NULL);
-   g_return_val_if_fail(G_VALUE_TYPE(value), NULL);
+   if (mode != GOM_FILTER_IS_NULL && mode != GOM_FILTER_IS_NOT_NULL) {
+     g_return_val_if_fail(value != NULL, NULL);
+     g_return_val_if_fail(G_VALUE_TYPE(value), NULL);
+   }
 
    klass = g_type_class_ref(resource_type);
    pspec = g_object_class_find_property(klass, property_name);
@@ -111,8 +138,61 @@ gom_filter_new_for_param (GType          resource_type,
                          NULL);
    filter->priv->pspec = g_param_spec_ref(pspec);
    filter->priv->type = resource_type;
-   g_value_init(&filter->priv->value, G_VALUE_TYPE(value));
-   g_value_copy(value, &filter->priv->value);
+
+   if (value)
+     {
+       g_value_init(&filter->priv->value, G_VALUE_TYPE(value));
+       g_value_copy(value, &filter->priv->value);
+     }
+
+   return filter;
+}
+
+static GomFilter *
+gom_filter_new_for_subfilters_full (GomFilterMode  mode,
+                                    GomFilter     *first,
+                                    va_list        filters)
+{
+   GomFilter *filter, *f;
+
+   g_return_val_if_fail(GOM_IS_FILTER(first), NULL);
+
+   filter = g_object_new(GOM_TYPE_FILTER, "mode", mode, NULL);
+   filter->priv->subfilters = g_queue_new();
+   g_queue_push_tail(filter->priv->subfilters, g_object_ref(first));
+
+   f = va_arg(filters, GomFilter*);
+
+   while (f != NULL) {
+      g_return_val_if_fail(GOM_IS_FILTER(f), NULL);
+      g_queue_push_tail(filter->priv->subfilters, g_object_ref(f));
+
+      f = va_arg(filters, GomFilter*);
+   }
+
+   return filter;
+}
+
+static GomFilter *
+gom_filter_new_for_subfilters_fullv (GomFilterMode   mode,
+                                     GomFilter     **filter_array)
+{
+   GomFilter *filter, *f;
+   guint i;
+
+   filter = g_object_new(GOM_TYPE_FILTER, "mode", mode, NULL);
+   filter->priv->subfilters = g_queue_new();
+
+   i = 0;
+   f = filter_array[i];
+
+   while (f != NULL) {
+      g_return_val_if_fail(GOM_IS_FILTER(f), NULL);
+      g_queue_push_tail(filter->priv->subfilters, g_object_ref(f));
+
+      i += 1;
+      f = filter_array[i];
+   }
 
    return filter;
 }
@@ -123,6 +203,14 @@ gom_filter_new_like (GType         resource_type,
                      const GValue *value)
 {
   return gom_filter_new_for_param(resource_type, property_name, GOM_FILTER_LIKE, value);
+}
+
+GomFilter *
+gom_filter_new_glob (GType         resource_type,
+                     const gchar  *property_name,
+                     const GValue *value)
+{
+  return gom_filter_new_for_param(resource_type, property_name, GOM_FILTER_GLOB, value);
 }
 
 GomFilter *
@@ -173,7 +261,21 @@ gom_filter_new_lte (GType         resource_type,
    return gom_filter_new_for_param(resource_type, property_name, GOM_FILTER_LTE, value);
 }
 
-GomFilterMode
+GomFilter   *
+gom_filter_new_is_null (GType          resource_type,
+                        const gchar   *property_name)
+{
+   return gom_filter_new_for_param(resource_type, property_name, GOM_FILTER_IS_NULL, NULL);
+}
+
+GomFilter   *
+gom_filter_new_is_not_null (GType          resource_type,
+                            const gchar   *property_name)
+{
+   return gom_filter_new_for_param(resource_type, property_name, GOM_FILTER_IS_NOT_NULL, NULL);
+}
+
+static GomFilterMode
 gom_filter_get_mode (GomFilter *filter)
 {
    g_return_val_if_fail(GOM_IS_FILTER(filter), 0);
@@ -226,18 +328,48 @@ GomFilter *
 gom_filter_new_and (GomFilter *left,
                     GomFilter *right)
 {
+   GomFilter *filter_array[3] = { left, right, NULL };
+
+   return gom_filter_new_for_subfilters_fullv(GOM_FILTER_AND, filter_array);
+}
+
+/**
+ * gom_filter_new_and_full: (constructor)
+ * @first: (in): A #GomFilter.
+ * @...: (in): A %NULL-terminated list of #GomFilter.
+ *
+ * Creates a new filter that requires that all filters passed as arguments
+ * equate to #TRUE.
+ *
+ * Returns: (transfer full): A #GomFilter.
+ */
+GomFilter *
+gom_filter_new_and_full (GomFilter *first,
+                         ...)
+{
    GomFilter *filter;
+   va_list args;
 
-   g_return_val_if_fail(GOM_IS_FILTER(left), NULL);
-   g_return_val_if_fail(GOM_IS_FILTER(right), NULL);
-
-   filter = g_object_new(GOM_TYPE_FILTER,
-                         "mode", GOM_FILTER_AND,
-                         NULL);
-   filter->priv->left = g_object_ref(left);
-   filter->priv->right = g_object_ref(right);
+   va_start(args, first);
+   filter = gom_filter_new_for_subfilters_full(GOM_FILTER_AND, first, args);
+   va_end(args);
 
    return filter;
+}
+
+/**
+ * gom_filter_new_and_fullv: (constructor)
+ * @filter_array: (in): A %NULL-terminated array of #GomFilter.
+ *
+ * Creates a new filter that requires that all filters passed as arguments
+ * equate to #TRUE.
+ *
+ * Returns: (transfer full): A #GomFilter.
+ */
+GomFilter *
+gom_filter_new_and_fullv (GomFilter **filter_array)
+{
+   return gom_filter_new_for_subfilters_fullv(GOM_FILTER_AND, filter_array);
 }
 
 /**
@@ -254,18 +386,48 @@ GomFilter *
 gom_filter_new_or (GomFilter *left,
                    GomFilter *right)
 {
+   GomFilter *filter_array[3] = { left, right, NULL };
+
+   return gom_filter_new_for_subfilters_fullv(GOM_FILTER_OR, filter_array);
+}
+
+/**
+ * gom_filter_new_or_full: (constructor)
+ * @first: (in): A #GomFilter.
+ * @...: (in): A %NULL-terminated list of #GomFilter.
+ *
+ * Creates a new filter that requires either of the filters passed as
+ * arguments equate to #TRUE.
+ *
+ * Returns: (transfer full): A #GomFilter.
+ */
+GomFilter *
+gom_filter_new_or_full (GomFilter *first,
+                        ...)
+{
    GomFilter *filter;
+   va_list args;
 
-   g_return_val_if_fail(GOM_IS_FILTER(left), NULL);
-   g_return_val_if_fail(GOM_IS_FILTER(right), NULL);
-
-   filter = g_object_new(GOM_TYPE_FILTER,
-                         "mode", GOM_FILTER_OR,
-                         NULL);
-   filter->priv->left = g_object_ref(left);
-   filter->priv->right = g_object_ref(right);
+   va_start(args, first);
+   filter = gom_filter_new_for_subfilters_full(GOM_FILTER_OR, first, args);
+   va_end(args);
 
    return filter;
+}
+
+/**
+ * gom_filter_new_or_fullv: (constructor)
+ * @filter_array: (in): A %NULL-terminated array of #GomFilter.
+ *
+ * Creates a new filter that requires either of the filters passed as
+ * arguments equate to #TRUE.
+ *
+ * Returns: (transfer full): A #GomFilter.
+ */
+GomFilter *
+gom_filter_new_or_fullv (GomFilter **filter_array)
+{
+   return gom_filter_new_for_subfilters_fullv(GOM_FILTER_OR, filter_array);
 }
 
 gchar *
@@ -274,9 +436,10 @@ gom_filter_get_sql (GomFilter  *filter,
 {
    GomFilterPrivate *priv;
    gchar *table;
-   gchar *left;
-   gchar *right;
-   gchar *ret;
+   GomFilter *f;
+   gchar **sqls;
+   gint i, len;
+   gchar *sep, *s, *ret;
 
    g_return_val_if_fail(GOM_IS_FILTER(filter), NULL);
 
@@ -292,6 +455,7 @@ gom_filter_get_sql (GomFilter  *filter,
    case GOM_FILTER_LT:
    case GOM_FILTER_LTE:
    case GOM_FILTER_LIKE:
+   case GOM_FILTER_GLOB:
       table = get_table(priv->pspec, priv->type, table_map);
       ret = g_strdup_printf("'%s'.'%s' %s ?",
                             table,
@@ -299,13 +463,40 @@ gom_filter_get_sql (GomFilter  *filter,
                             gOperators[priv->mode]);
       g_free(table);
       return ret;
+   case GOM_FILTER_IS_NULL:
+   case GOM_FILTER_IS_NOT_NULL:
+      table = get_table(priv->pspec, priv->type, table_map);
+      ret = g_strdup_printf("'%s'.'%s' %s",
+                            table,
+                            priv->pspec->name,
+                            gOperators[priv->mode]);
+      g_free(table);
+      return ret;
    case GOM_FILTER_AND:
    case GOM_FILTER_OR:
-      left = gom_filter_get_sql(priv->left, table_map);
-      right = gom_filter_get_sql(priv->right, table_map);
-      ret = g_strdup_printf("%s %s %s", left, gOperators[priv->mode], right);
-      g_free(left);
-      g_free(right);
+      len = g_queue_get_length(priv->subfilters);
+      sqls = g_new(gchar *, 1 + len);
+
+      for (i = 0; i < len; i++) {
+         f = g_queue_peek_nth(priv->subfilters, i);
+         s = gom_filter_get_sql(f, table_map);
+
+         if ((f->priv->mode == GOM_FILTER_AND) || (f->priv->mode == GOM_FILTER_OR)) {
+            gchar *tmp = g_strdup_printf("(%s)", s);
+            g_free(s);
+            s = tmp;
+         }
+
+         sqls[i] = s;
+      }
+      sqls[i] = NULL;
+
+      sep = g_strdup_printf(" %s ", gOperators[priv->mode]);
+      ret = g_strjoinv(sep, sqls);
+
+      g_free(sep);
+      g_strfreev(sqls);
+
       return ret;
    default:
       break;
@@ -349,8 +540,10 @@ GArray *
 gom_filter_get_values (GomFilter *filter)
 {
    GomFilterPrivate *priv;
+   GomFilter *f;
    GArray *tmp;
    GArray *va;
+   gint i, len;
 
    g_return_val_if_fail(GOM_IS_FILTER(filter), NULL);
 
@@ -370,7 +563,8 @@ gom_filter_get_values (GomFilter *filter)
    case GOM_FILTER_GTE:
    case GOM_FILTER_LT:
    case GOM_FILTER_LTE:
-   case GOM_FILTER_LIKE: {
+   case GOM_FILTER_LIKE:
+   case GOM_FILTER_GLOB: {
       GValue v = { 0 };
       g_value_init(&v, G_VALUE_TYPE(&priv->value));
       g_value_copy(&priv->value, &v);
@@ -379,11 +573,21 @@ gom_filter_get_values (GomFilter *filter)
       g_array_append_val(va, v);
       return va;
    }
+   case GOM_FILTER_IS_NULL:
+   case GOM_FILTER_IS_NOT_NULL:
+      va = g_array_new(FALSE, FALSE, sizeof(GValue));
+      g_array_set_clear_func(va, (GDestroyNotify) g_value_unset);
+      return va;
    case GOM_FILTER_AND:
    case GOM_FILTER_OR:
-      va = gom_filter_get_values(priv->left);
-      tmp = gom_filter_get_values(priv->right);
-      join_value_array(va, tmp);
+      len = g_queue_get_length(priv->subfilters);
+      va = g_array_new(FALSE, FALSE, sizeof(GValue));
+
+      for (i = 0; i < len; i++) {
+         f = g_queue_peek_nth(priv->subfilters, i);
+         tmp = gom_filter_get_values(f);
+         join_value_array(va, tmp);
+      }
 
       return va;
    default:
@@ -415,6 +619,11 @@ gom_filter_finalize (GObject *object)
    if (G_VALUE_TYPE(&priv->value)) {
       g_value_unset(&priv->value);
    }
+
+   g_clear_pointer (&priv->values, g_array_unref);
+
+   if (priv->subfilters != NULL)
+      g_queue_free_full(priv->subfilters, g_object_unref);
 
    G_OBJECT_CLASS(gom_filter_parent_class)->finalize(object);
 }
@@ -504,7 +713,7 @@ gom_filter_class_init (GomFilterClass *klass)
    gParamSpecs[PROP_SQL] =
       g_param_spec_string("sql",
                           _("SQL"),
-                          _("The sql for the filter."),
+                          _("The SQL for the filter."),
                           NULL,
                           G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY);
    g_object_class_install_property(object_class, PROP_SQL,
@@ -543,6 +752,9 @@ gom_filter_mode_get_type (void)
       { GOM_FILTER_LT,  "GOM_FILTER_LT",  "LT" },
       { GOM_FILTER_LTE, "GOM_FILTER_LTE", "LTE" },
       { GOM_FILTER_LIKE, "GOM_FILTER_LIKE", "LIKE" },
+      { GOM_FILTER_GLOB, "GOM_FILTER_GLOB", "GLOB" },
+      { GOM_FILTER_IS_NULL, "GOM_FILTER_IS_NULL", "IS_NULL" },
+      { GOM_FILTER_IS_NOT_NULL, "GOM_FILTER_IS_NOT_NULL", "IS_NOT_NULL" },
       { 0 }
    };
 

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
 <book xmlns="http://www.devhelp.net/book" title="Gom Reference Manual" link="index.html" author="" name="gom" version="2" language="c">
   <chapters>
     <sub name="Gom API Reference" link="ch01.html">
@@ -11,6 +10,7 @@
       <sub name="GomRepository" link="GomRepository.html"/>
       <sub name="GomResource" link="GomResource.html"/>
       <sub name="GomResourceGroup" link="GomResourceGroup.html"/>
+      <sub name="GomSorting" link="GomSorting.html"/>
     </sub>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="API Index" link="api-index-full.html"/>
@@ -60,6 +60,7 @@
     <keyword type="property" name="The “m2m-type” property" link="GomCommandBuilder.html#GomCommandBuilder--m2m-type"/>
     <keyword type="property" name="The “offset” property" link="GomCommandBuilder.html#GomCommandBuilder--offset"/>
     <keyword type="property" name="The “resource-type” property" link="GomCommandBuilder.html#GomCommandBuilder--resource-type"/>
+    <keyword type="property" name="The “sorting” property" link="GomCommandBuilder.html#GomCommandBuilder--sorting"/>
     <keyword type="macro" name="GOM_CURSOR_CONST()" link="GomCursor.html#GOM-CURSOR-CONST:CAPS"/>
     <keyword type="function" name="gom_cursor_get_column_name ()" link="GomCursor.html#gom-cursor-get-column-name"/>
     <keyword type="function" name="gom_cursor_get_n_columns ()" link="GomCursor.html#gom-cursor-get-n-columns"/>
@@ -79,7 +80,11 @@
     <keyword type="function" name="gom_filter_get_values ()" link="GomFilter.html#gom-filter-get-values"/>
     <keyword type="function" name="gom_filter_new_sql ()" link="GomFilter.html#gom-filter-new-sql"/>
     <keyword type="function" name="gom_filter_new_or ()" link="GomFilter.html#gom-filter-new-or"/>
+    <keyword type="function" name="gom_filter_new_or_full ()" link="GomFilter.html#gom-filter-new-or-full"/>
+    <keyword type="function" name="gom_filter_new_or_fullv ()" link="GomFilter.html#gom-filter-new-or-fullv"/>
     <keyword type="function" name="gom_filter_new_and ()" link="GomFilter.html#gom-filter-new-and"/>
+    <keyword type="function" name="gom_filter_new_and_full ()" link="GomFilter.html#gom-filter-new-and-full"/>
+    <keyword type="function" name="gom_filter_new_and_fullv ()" link="GomFilter.html#gom-filter-new-and-fullv"/>
     <keyword type="function" name="gom_filter_new_eq ()" link="GomFilter.html#gom-filter-new-eq"/>
     <keyword type="function" name="gom_filter_new_neq ()" link="GomFilter.html#gom-filter-new-neq"/>
     <keyword type="function" name="gom_filter_new_gt ()" link="GomFilter.html#gom-filter-new-gt"/>
@@ -87,6 +92,9 @@
     <keyword type="function" name="gom_filter_new_lt ()" link="GomFilter.html#gom-filter-new-lt"/>
     <keyword type="function" name="gom_filter_new_lte ()" link="GomFilter.html#gom-filter-new-lte"/>
     <keyword type="function" name="gom_filter_new_like ()" link="GomFilter.html#gom-filter-new-like"/>
+    <keyword type="function" name="gom_filter_new_glob ()" link="GomFilter.html#gom-filter-new-glob"/>
+    <keyword type="function" name="gom_filter_new_is_null ()" link="GomFilter.html#gom-filter-new-is-null"/>
+    <keyword type="function" name="gom_filter_new_is_not_null ()" link="GomFilter.html#gom-filter-new-is-not-null"/>
     <keyword type="property" name="The “mode” property" link="GomFilter.html#GomFilter--mode"/>
     <keyword type="property" name="The “sql” property" link="GomFilter.html#GomFilter--sql"/>
     <keyword type="macro" name="GOM_REPOSITORY_CONST()" link="GomRepository.html#GOM-REPOSITORY-CONST:CAPS"/>
@@ -102,7 +110,10 @@
     <keyword type="function" name="gom_repository_find_one_sync ()" link="GomRepository.html#gom-repository-find-one-sync"/>
     <keyword type="function" name="gom_repository_find_one_async ()" link="GomRepository.html#gom-repository-find-one-async"/>
     <keyword type="function" name="gom_repository_find_one_finish ()" link="GomRepository.html#gom-repository-find-one-finish"/>
+    <keyword type="function" name="gom_repository_find_sync ()" link="GomRepository.html#gom-repository-find-sync"/>
+    <keyword type="function" name="gom_repository_find_sorted_sync ()" link="GomRepository.html#gom-repository-find-sorted-sync"/>
     <keyword type="function" name="gom_repository_find_async ()" link="GomRepository.html#gom-repository-find-async"/>
+    <keyword type="function" name="gom_repository_find_sorted_async ()" link="GomRepository.html#gom-repository-find-sorted-async"/>
     <keyword type="function" name="gom_repository_find_finish ()" link="GomRepository.html#gom-repository-find-finish"/>
     <keyword type="property" name="The “adapter” property" link="GomRepository.html#GomRepository--adapter"/>
     <keyword type="macro" name="GOM_RESOURCE_CONST()" link="GomResource.html#GOM-RESOURCE-CONST:CAPS"/>
@@ -112,23 +123,31 @@
     <keyword type="macro" name="GOM_RESOURCE_FROM_BYTES_FUNC" link="GomResource.html#GOM-RESOURCE-FROM-BYTES-FUNC:CAPS"/>
     <keyword type="macro" name="GOM_RESOURCE_REF_TABLE_CLASS" link="GomResource.html#GOM-RESOURCE-REF-TABLE-CLASS:CAPS"/>
     <keyword type="macro" name="GOM_RESOURCE_REF_PROPERTY_NAME" link="GomResource.html#GOM-RESOURCE-REF-PROPERTY-NAME:CAPS"/>
+    <keyword type="macro" name="GOM_RESOURCE_UNIQUE" link="GomResource.html#GOM-RESOURCE-UNIQUE:CAPS"/>
+    <keyword type="macro" name="GOM_RESOURCE_NOTNULL" link="GomResource.html#GOM-RESOURCE-NOTNULL:CAPS"/>
     <keyword type="function" name="GomResourceToBytesFunc ()" link="GomResource.html#GomResourceToBytesFunc"/>
     <keyword type="function" name="GomResourceFromBytesFunc ()" link="GomResource.html#GomResourceFromBytesFunc"/>
-    <keyword type="function" name="gom_resource_class_set_table ()" link="GomResource.html#gom-resource-class-set-table"/>
-    <keyword type="function" name="gom_resource_class_set_primary_key ()" link="GomResource.html#gom-resource-class-set-primary-key"/>
-    <keyword type="function" name="gom_resource_class_set_property_new_in_version ()" link="GomResource.html#gom-resource-class-set-property-new-in-version"/>
-    <keyword type="function" name="gom_resource_class_set_property_set_mapped ()" link="GomResource.html#gom-resource-class-set-property-set-mapped"/>
-    <keyword type="function" name="gom_resource_class_set_property_transform ()" link="GomResource.html#gom-resource-class-set-property-transform"/>
-    <keyword type="function" name="gom_resource_class_set_reference ()" link="GomResource.html#gom-resource-class-set-reference"/>
-    <keyword type="function" name="gom_resource_delete_async ()" link="GomResource.html#gom-resource-delete-async"/>
-    <keyword type="function" name="gom_resource_delete_finish ()" link="GomResource.html#gom-resource-delete-finish"/>
-    <keyword type="function" name="gom_resource_delete_sync ()" link="GomResource.html#gom-resource-delete-sync"/>
     <keyword type="function" name="gom_resource_new_in_version_quark ()" link="GomResource.html#gom-resource-new-in-version-quark"/>
     <keyword type="function" name="gom_resource_not_mapped_quark ()" link="GomResource.html#gom-resource-not-mapped-quark"/>
     <keyword type="function" name="gom_resource_to_bytes_func_quark ()" link="GomResource.html#gom-resource-to-bytes-func-quark"/>
     <keyword type="function" name="gom_resource_from_bytes_func_quark ()" link="GomResource.html#gom-resource-from-bytes-func-quark"/>
     <keyword type="function" name="gom_resource_ref_table_class ()" link="GomResource.html#gom-resource-ref-table-class"/>
     <keyword type="function" name="gom_resource_ref_property_name ()" link="GomResource.html#gom-resource-ref-property-name"/>
+    <keyword type="function" name="gom_resource_unique ()" link="GomResource.html#gom-resource-unique"/>
+    <keyword type="function" name="gom_resource_notnull ()" link="GomResource.html#gom-resource-notnull"/>
+    <keyword type="function" name="gom_resource_class_set_table ()" link="GomResource.html#gom-resource-class-set-table"/>
+    <keyword type="function" name="gom_resource_class_set_primary_key ()" link="GomResource.html#gom-resource-class-set-primary-key"/>
+    <keyword type="function" name="gom_resource_class_set_property_new_in_version ()" link="GomResource.html#gom-resource-class-set-property-new-in-version"/>
+    <keyword type="function" name="gom_resource_class_set_property_set_mapped ()" link="GomResource.html#gom-resource-class-set-property-set-mapped"/>
+    <keyword type="function" name="gom_resource_class_set_property_transform ()" link="GomResource.html#gom-resource-class-set-property-transform"/>
+    <keyword type="function" name="gom_resource_class_set_property_to_bytes ()" link="GomResource.html#gom-resource-class-set-property-to-bytes"/>
+    <keyword type="function" name="gom_resource_class_set_property_from_bytes ()" link="GomResource.html#gom-resource-class-set-property-from-bytes"/>
+    <keyword type="function" name="gom_resource_class_set_reference ()" link="GomResource.html#gom-resource-class-set-reference"/>
+    <keyword type="function" name="gom_resource_class_set_unique ()" link="GomResource.html#gom-resource-class-set-unique"/>
+    <keyword type="function" name="gom_resource_class_set_notnull ()" link="GomResource.html#gom-resource-class-set-notnull"/>
+    <keyword type="function" name="gom_resource_delete_async ()" link="GomResource.html#gom-resource-delete-async"/>
+    <keyword type="function" name="gom_resource_delete_finish ()" link="GomResource.html#gom-resource-delete-finish"/>
+    <keyword type="function" name="gom_resource_delete_sync ()" link="GomResource.html#gom-resource-delete-sync"/>
     <keyword type="function" name="gom_resource_save_async ()" link="GomResource.html#gom-resource-save-async"/>
     <keyword type="function" name="gom_resource_save_finish ()" link="GomResource.html#gom-resource-save-finish"/>
     <keyword type="function" name="gom_resource_save_sync ()" link="GomResource.html#gom-resource-save-sync"/>
@@ -136,18 +155,31 @@
     <keyword type="function" name="gom_resource_fetch_m2m_finish ()" link="GomResource.html#gom-resource-fetch-m2m-finish"/>
     <keyword type="property" name="The “repository” property" link="GomResource.html#GomResource--repository"/>
     <keyword type="macro" name="GOM_RESOURCE_GROUP_CONST()" link="GomResourceGroup.html#GOM-RESOURCE-GROUP-CONST:CAPS"/>
+    <keyword type="function" name="gom_resource_group_new ()" link="GomResourceGroup.html#gom-resource-group-new"/>
+    <keyword type="function" name="gom_resource_group_append ()" link="GomResourceGroup.html#gom-resource-group-append"/>
+    <keyword type="function" name="gom_resource_group_write_sync ()" link="GomResourceGroup.html#gom-resource-group-write-sync"/>
+    <keyword type="function" name="gom_resource_group_write_async ()" link="GomResourceGroup.html#gom-resource-group-write-async"/>
+    <keyword type="function" name="gom_resource_group_write_finish ()" link="GomResourceGroup.html#gom-resource-group-write-finish"/>
+    <keyword type="function" name="gom_resource_group_delete_sync ()" link="GomResourceGroup.html#gom-resource-group-delete-sync"/>
+    <keyword type="function" name="gom_resource_group_delete_async ()" link="GomResourceGroup.html#gom-resource-group-delete-async"/>
+    <keyword type="function" name="gom_resource_group_delete_finish ()" link="GomResourceGroup.html#gom-resource-group-delete-finish"/>
     <keyword type="function" name="gom_resource_group_fetch_async ()" link="GomResourceGroup.html#gom-resource-group-fetch-async"/>
     <keyword type="function" name="gom_resource_group_fetch_finish ()" link="GomResourceGroup.html#gom-resource-group-fetch-finish"/>
     <keyword type="function" name="gom_resource_group_fetch_sync ()" link="GomResourceGroup.html#gom-resource-group-fetch-sync"/>
     <keyword type="function" name="gom_resource_group_get_count ()" link="GomResourceGroup.html#gom-resource-group-get-count"/>
     <keyword type="function" name="gom_resource_group_get_index ()" link="GomResourceGroup.html#gom-resource-group-get-index"/>
     <keyword type="function" name="gom_resource_group_get_m2m_table ()" link="GomResourceGroup.html#gom-resource-group-get-m2m-table"/>
-    <keyword type="property" name="The “adapter” property" link="GomResourceGroup.html#GomResourceGroup--adapter"/>
     <keyword type="property" name="The “count” property" link="GomResourceGroup.html#GomResourceGroup--count"/>
     <keyword type="property" name="The “filter” property" link="GomResourceGroup.html#GomResourceGroup--filter"/>
+    <keyword type="property" name="The “is-writable” property" link="GomResourceGroup.html#GomResourceGroup--is-writable"/>
     <keyword type="property" name="The “m2m-table” property" link="GomResourceGroup.html#GomResourceGroup--m2m-table"/>
     <keyword type="property" name="The “m2m-type” property" link="GomResourceGroup.html#GomResourceGroup--m2m-type"/>
     <keyword type="property" name="The “repository” property" link="GomResourceGroup.html#GomResourceGroup--repository"/>
     <keyword type="property" name="The “resource-type” property" link="GomResourceGroup.html#GomResourceGroup--resource-type"/>
+    <keyword type="property" name="The “sorting” property" link="GomResourceGroup.html#GomResourceGroup--sorting"/>
+    <keyword type="macro" name="GOM_SORTING_CONST()" link="GomSorting.html#GOM-SORTING-CONST:CAPS"/>
+    <keyword type="function" name="gom_sorting_get_sql ()" link="GomSorting.html#gom-sorting-get-sql"/>
+    <keyword type="function" name="gom_sorting_new ()" link="GomSorting.html#gom-sorting-new"/>
+    <keyword type="function" name="gom_sorting_add ()" link="GomSorting.html#gom-sorting-add"/>
   </functions>
 </book>
