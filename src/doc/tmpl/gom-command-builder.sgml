@@ -1,0 +1,87 @@
+<!-- ##### SECTION Title ##### -->
+GomCommandBuilder
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO GOM_COMMAND_BUILDER_CONST ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_count ##### -->
+<para>
+
+</para>
+
+@builder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_delete ##### -->
+<para>
+
+</para>
+
+@builder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_select ##### -->
+<para>
+
+</para>
+
+@builder: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_insert ##### -->
+<para>
+
+</para>
+
+@builder: 
+@resource: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_update ##### -->
+<para>
+
+</para>
+
+@builder: 
+@resource: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_builder_build_create ##### -->
+<para>
+
+</para>
+
+@builder: 
+@version: 
+@Returns: 
+
+

@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Gom Reference Manual: GomAdapter</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Gom Reference Manual">
+<link rel="up" href="ch01.html" title="Gom API Reference">
+<link rel="prev" href="ch01.html" title="Gom API Reference">
+<link rel="next" href="GomCommand.html" title="GomCommand">
+<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#GomAdapter.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#GomAdapter.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="GomCommand.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="GomAdapter"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="GomAdapter.top_of_page"></a>GomAdapter</span></h2>
+<p>GomAdapter</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="GomAdapter.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#GOM-ADAPTER-CONST:CAPS" title="GOM_ADAPTER_CONST()">GOM_ADAPTER_CONST</a><span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<span class="c_punctuation">(</span><a class="link" href="GomAdapter.html#GomAdapterCallback" title="GomAdapterCallback ()">*GomAdapterCallback</a><span class="c_punctuation">)</span> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-close-sync" title="gom_adapter_close_sync ()">gom_adapter_close_sync</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-close-async" title="gom_adapter_close_async ()">gom_adapter_close_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-close-finish" title="gom_adapter_close_finish ()">gom_adapter_close_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-get-handle" title="gom_adapter_get_handle ()">gom_adapter_get_handle</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="GomAdapter.html" title="GomAdapter"><span class="returnvalue">GomAdapter</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-new" title="gom_adapter_new ()">gom_adapter_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-open-sync" title="gom_adapter_open_sync ()">gom_adapter_open_sync</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-open-async" title="gom_adapter_open_async ()">gom_adapter_open_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-open-finish" title="gom_adapter_open_finish ()">gom_adapter_open_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-queue-read" title="gom_adapter_queue_read ()">gom_adapter_queue_read</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-queue-write" title="gom_adapter_queue_write ()">gom_adapter_queue_write</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="GomAdapter.html#gom-adapter-execute-sql" title="gom_adapter_execute_sql ()">gom_adapter_execute_sql</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="GomAdapter.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> GomAdapter
+</pre>
+</div>
+<div class="refsect1">
+<a name="GomAdapter.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1">
+<a name="GomAdapter.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="GOM-ADAPTER-CONST:CAPS"></a><h3>GOM_ADAPTER_CONST()</h3>
+<pre class="programlisting">#define GOM_ADAPTER_CONST(obj)      (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOM_TYPE_ADAPTER, GomAdapter const))
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="GomAdapterCallback"></a><h3>GomAdapterCallback ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+<span class="c_punctuation">(</span>*GomAdapterCallback<span class="c_punctuation">)</span> (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-close-sync"></a><h3>gom_adapter_close_sync ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+gom_adapter_close_sync (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.4.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-close-async"></a><h3>gom_adapter_close_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_adapter_close_async (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-close-finish"></a><h3>gom_adapter_close_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+gom_adapter_close_finish (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                          <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.6.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-get-handle"></a><h3>gom_adapter_get_handle ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="returnvalue">gpointer</span></a>
+gom_adapter_get_handle (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>);</pre>
+<p>Fetches the sqlite3 structure used by the adapter.</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.7.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>adapter</p></td>
+<td class="parameter_description"><p> A <a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.6.7.6"></a><h4>Returns</h4>
+<p> A handle to the <span class="type">sqlite3</span> structure.
+Side effects: None. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-new"></a><h3>gom_adapter_new ()</h3>
+<pre class="programlisting"><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="returnvalue">GomAdapter</span></a> *
+gom_adapter_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.8.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-open-sync"></a><h3>gom_adapter_open_sync ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+gom_adapter_open_sync (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                       <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                       <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.9.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-open-async"></a><h3>gom_adapter_open_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_adapter_open_async (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                        <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *uri</code></em>,
+                        <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Opens the database pointed to by <em class="parameter"><code>uri</code></em>
+. <em class="parameter"><code>uri</code></em>
+ can be in any format understood
+by SQLite. See <a class="ulink" href="http://www.sqlite.org/c3ref/open.html" target="_top">http://www.sqlite.org/c3ref/open.html</a>
+for details.</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.10.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>adapter</p></td>
+<td class="parameter_description"><p>a <a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>uri</p></td>
+<td class="parameter_description"><p>a URI understood by SQLite</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>the function to call when the operation finished, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>the user data to pass to the callback function</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-open-finish"></a><h3>gom_adapter_open_finish ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+gom_adapter_open_finish (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/gio/unstable/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *result</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.11.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-queue-read"></a><h3>gom_adapter_queue_read ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_adapter_queue_read (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                        <em class="parameter"><code><a class="link" href="GomAdapter.html#GomAdapterCallback" title="GomAdapterCallback ()"><span class="type">GomAdapterCallback</span></a> callback</code></em>,
+                        <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Queues a callback to be executed within the SQLite thread. The callback is
+expected to perform reads only.</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.12.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>adapter</p></td>
+<td class="parameter_description"><p> A <a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p> A callback to execute read queries on SQLite. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p> User data for <em class="parameter"><code>callback</code></em>
+. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-queue-write"></a><h3>gom_adapter_queue_write ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+gom_adapter_queue_write (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                         <em class="parameter"><code><a class="link" href="GomAdapter.html#GomAdapterCallback" title="GomAdapterCallback ()"><span class="type">GomAdapterCallback</span></a> callback</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Queues a callback to be executed within the SQLite thwrite. The callback can
+perform reads and writes.</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.13.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>adapter</p></td>
+<td class="parameter_description"><p> A <a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p> A callback to execute write queries on SQLite. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>][<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p> User data for <em class="parameter"><code>callback</code></em>
+. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="gom-adapter-execute-sql"></a><h3>gom_adapter_execute_sql ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+gom_adapter_execute_sql (<em class="parameter"><code><a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a> *adapter</code></em>,
+                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *sql</code></em>,
+                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>This is a helper function to make simple execution of SQL easier.
+It is primarily meant for things like "BEGIN;" and "COMMIT;".</p>
+<p>This MUST be called from within a write transaction using
+<a class="link" href="GomAdapter.html#gom-adapter-queue-write" title="gom_adapter_queue_write ()"><code class="function">gom_adapter_queue_write()</code></a>.</p>
+<div class="refsect3">
+<a name="id-1.2.2.6.14.6"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>adapter</p></td>
+<td class="parameter_description"><p>A <a class="link" href="GomAdapter.html" title="GomAdapter"><span class="type">GomAdapter</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sql</p></td>
+<td class="parameter_description"><p>SQL to execute.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>a <a href="http://library.gnome.org/devel/glib/unstable/glib-Error-Reporting.html#GError"><span class="type">GError</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.6.14.7"></a><h4>Returns</h4>
+<p> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if successful;</p>
+<p></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="GomAdapter.other_details"></a><h2>Types and Values</h2>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.21</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!-- ##### SECTION Title ##### -->
+GomResourceGroup
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO GOM_RESOURCE_GROUP_CONST ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gom_resource_group_fetch_async ##### -->
+<para>
+
+</para>
+
+@group: 
+@index_: 
+@count: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_resource_group_fetch_finish ##### -->
+<para>
+
+</para>
+
+@group: 
+@result: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_resource_group_fetch_sync ##### -->
+<para>
+
+</para>
+
+@group: 
+@index_: 
+@count: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_resource_group_get_count ##### -->
+<para>
+
+</para>
+
+@group: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_resource_group_get_index ##### -->
+<para>
+
+</para>
+
+@group: 
+@index_: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_resource_group_get_m2m_table ##### -->
+<para>
+
+</para>
+
+@group: 
+@Returns: 
+
+

@@ -1,0 +1,152 @@
+<!-- ##### SECTION Title ##### -->
+GomAdapter
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO GOM_ADAPTER_CONST ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### USER_FUNCTION GomAdapterCallback ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_adapter_close_sync ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_close_async ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_adapter_close_finish ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@result: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_get_handle ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_open_sync ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@uri: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_open_async ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@uri: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_adapter_open_finish ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@result: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_adapter_queue_read ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_adapter_queue_write ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@callback: 
+@user_data: 
+
+
+<!-- ##### FUNCTION gom_adapter_execute_sql ##### -->
+<para>
+
+</para>
+
+@adapter: 
+@sql: 
+@error: 
+@Returns: 
+
+

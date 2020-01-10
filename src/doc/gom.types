@@ -1,0 +1,10 @@
+gom_adapter_get_type
+gom_command_builder_get_type
+gom_command_get_type
+gom_cursor_get_type
+gom_error_get_type
+gom_filter_get_type
+gom_filter_mode_get_type
+gom_repository_get_type
+gom_resource_get_type
+gom_resource_group_get_type

@@ -1,0 +1,148 @@
+<!-- ##### SECTION Title ##### -->
+GomCursor
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO GOM_CURSOR_CONST ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_name ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_n_columns ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_boolean ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_double ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_float ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_int ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_int64 ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_string ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_uint ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_get_column_uint64 ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@column: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_cursor_next ##### -->
+<para>
+
+</para>
+
+@cursor: 
+@Returns: 
+
+

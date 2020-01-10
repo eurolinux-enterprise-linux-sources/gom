@@ -1,0 +1,31 @@
+<!-- ##### SECTION Title ##### -->
+gom-error
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### FUNCTION gom_error_quark ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+

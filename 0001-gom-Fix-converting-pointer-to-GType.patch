@@ -1,0 +1,66 @@
+From 51af68df5bfcf143bc8cced02f96c79403884a8f Mon Sep 17 00:00:00 2001
+From: Heiher <r@hev.cc>
+Date: Tue, 21 Apr 2015 07:51:00 +0800
+Subject: [PATCH] gom: Fix converting pointer to GType
+
+A gpointer will be the same size as a GType (64-bit), but
+GPOINTER_TO_INT() will clamp that to int (32-bit) causing crashes
+when we try to access the invalid GType values.
+
+This solves crashes when gom was compiled with "-fPIE -pie" CFLAGS
+
+https://bugzilla.gnome.org/show_bug.cgi?id=748196
+---
+ gom/gom-repository.c | 5 ++---
+ gom/gom-resource.c   | 5 ++---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/gom/gom-repository.c b/gom/gom-repository.c
+index 873c721..bfa196a 100644
+--- a/gom/gom-repository.c
++++ b/gom/gom-repository.c
+@@ -349,7 +349,7 @@ gom_repository_automatic_migrator (GomRepository  *repository,
+   GList *l;
+ 
+   for (l = object_types; l != NULL; l = l->next) {
+-    GType type = GPOINTER_TO_INT (l->data);
++    GType type = (GType) l->data;
+     GomResourceClass *klass;
+     GomCommandBuilder *builder;
+     GList *cmds, *c;
+@@ -479,8 +479,7 @@ gom_repository_find_cb (GomAdapter *adapter,
+    repository = GOM_REPOSITORY(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
+    g_assert(GOM_IS_REPOSITORY(repository));
+ 
+-   resource_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(simple),
+-                                                     "resource-type"));
++   resource_type = (GType) g_object_get_data(G_OBJECT(simple), "resource-type");
+    g_assert(g_type_is_a(resource_type, GOM_TYPE_RESOURCE));
+ 
+    filter = g_object_get_data(G_OBJECT(simple), "filter");
+diff --git a/gom/gom-resource.c b/gom/gom-resource.c
+index f3029eb..b5dc50a 100644
+--- a/gom/gom-resource.c
++++ b/gom/gom-resource.c
+@@ -612,7 +612,7 @@ gom_resource_build_save_cmd (GomResource *resource,
+    for (iter = types; iter; iter = iter->next) {
+       GomCommand *command;
+ 
+-      resource_type = GPOINTER_TO_INT(iter->data);
++      resource_type = (GType) iter->data;
+ 
+       g_object_set(builder,
+                    "resource-type", resource_type,
+@@ -844,8 +844,7 @@ gom_resource_fetch_m2m_cb (GomAdapter *adapter,
+    g_return_if_fail(G_IS_SIMPLE_ASYNC_RESULT(simple));
+ 
+    m2m_table = g_object_get_data(G_OBJECT(simple), "m2m-table");
+-   resource_type = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(simple),
+-                                                     "resource-type"));
++   resource_type = (GType) g_object_get_data(G_OBJECT(simple), "resource-type");
+    filter = g_object_get_data(G_OBJECT(simple), "filter");
+    resource = GOM_RESOURCE(g_async_result_get_source_object(G_ASYNC_RESULT(simple)));
+    repository = gom_resource_get_repository(resource);
+-- 
+2.4.3
+

@@ -1,0 +1,148 @@
+<!-- ##### SECTION Title ##### -->
+GomCommand
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### MACRO GOM_COMMAND_CONST ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### FUNCTION gom_command_execute ##### -->
+<para>
+
+</para>
+
+@command: 
+@cursor: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_set_sql ##### -->
+<para>
+
+</para>
+
+@command: 
+@sql: 
+
+
+<!-- ##### FUNCTION gom_command_get_param_index ##### -->
+<para>
+
+</para>
+
+@command: 
+@param_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION gom_command_reset ##### -->
+<para>
+
+</para>
+
+@command: 
+
+
+<!-- ##### FUNCTION gom_command_set_param ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_double ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_float ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_int ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_int64 ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_uint ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_uint64 ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
+<!-- ##### FUNCTION gom_command_set_param_string ##### -->
+<para>
+
+</para>
+
+@command: 
+@param: 
+@value: 
+
+
